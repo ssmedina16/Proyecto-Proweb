@@ -1,0 +1,26 @@
+/* Variables Globales */
+:root {
+    --primary-color: #333;
+    --accent-color: #007bff;
+    --text-color: #fff;
+    --bg-color: #121212;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos básicos para layout */
+header, footer {
+    padding: 1rem;
+    background-color: var(--primary-color);
+}
+
+section {
+    padding: 2rem;
+    border-bottom: 1px solid #333;
+}

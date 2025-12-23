@@ -1,0 +1,34 @@
+<!-- Plantilla para listados de juegos (Top 100, Recientes, Próximos) -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Juegos</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <a href="../../index.html">Volver al Inicio</a>
+    </header>
+    <main>
+        <h1 id="page-title">Juegos</h1>
+        
+        <!-- Controles de Ordenamiento y Filtrado -->
+        <div id="controls">
+            <select id="sort-by">
+                <option value="date_desc">Fecha (Descendente)</option>
+                <option value="date_asc">Fecha (Ascendente)</option>
+                <option value="name_asc">Alfabético (A-Z)</option>
+            </select>
+            <input type="text" id="filter-input" placeholder="Filtrar...">
+        </div>
+
+        <div id="games-list" class="grid-container">
+            <!-- Los juegos se cargarán aquí dinámicamente -->
+        </div>
+    </main>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/main.js"></script>
+    <!-- Script específico para lógica de listados -->
+</body>
+</html>
