@@ -6,38 +6,218 @@
     <title>Pagina Proyecto</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
+
+
 <body>
+
     <header>
-        <nav>
-            <!-- Navegación principal aquí -->
-        </nav>
+        <div class="header-container">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <nav>
+                <a href="#" class="nav-box"></a>
+                <a href="#" class="nav-box"></a>
+                <a href="#" class="nav-box"></a>
+                <a href="#" class="nav-box"></a>
+                <a href="#" class="nav-box"></a>
+                <a href="#" class="nav-box"></a>
+            </nav>
+        </div>
     </header>
 
+
+
     <main>
-        <!-- 1. Slider con banners -->
-        <section id="hero-slider"></section>
 
-        <!-- 1. Juegos mejor punteados (Top 100 link) -->
-        <section id="top-rated"></section>
+        <!-- Carrusel Imagenes -->
+        <section id="carrusel-banner" class="carrusel-section">
+            <div class="banner-placeholder"></div>
+        </section>
 
-        <!-- 1. Últimos eventos -->
-        <section id="latest-events"></section>
 
-        <!-- 1. Juegos recientes (últimos 15 días) -->
-        <section id="recent-games"></section>
+        <!-- Links / Categorias -->
+        <section id="quick-links" class="quick-links-section">
+            <div class="quick-link-box">banner</div>
+            <div class="quick-link-box">banner</div>
+            <div class="quick-link-box">banner</div>
+            <div class="quick-link-box">banner</div>
+            <div class="quick-link-box">banner</div>
+        </section>
 
-        <!-- 1. Próximos lanzamientos (próximos 15 días) -->
-        <section id="upcoming-games"></section>
 
-        <!-- 1. Plataformas -->
-        <section id="platforms-preview"></section>
+        <!-- Juegos destacados -->
+        <section id="featured-games" class="featured-section">
 
-        <!-- 1. Compañías -->
-        <section id="companies-preview"></section>
+            <div class="featured-card">
+                <div class="card-border">
+                    <div class="circle-img">
+                        <span class="plus-icon">+</span>
+                    </div>
+                    <h2 class="game-title">Nombre Juego</h2>
+                    <p class="descrip-game">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi doloribus pariatur nostrum repellat deserunt nisi quisquam illo, neque labore dolorum quia non. Dolore repudiandae aliquid, provident pariatur voluptatem delectus accusamus?</p>
+                </div>
+            </div>
+
+            <div class="featured-card">
+                <div class="card-border">
+                    <div class="circle-img">
+                        <span class="plus-icon">+</span>
+                    </div>
+                    <h2 class="game-title">Nombre Juego</h2>
+                    <p class="descrip-game">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi doloribus pariatur nostrum repellat deserunt nisi quisquam illo, neque labore dolorum quia non. Dolore repudiandae aliquid, provident pariatur voluptatem delectus accusamus?</p>
+                </div>
+            </div>
+            <div class="pagination-dots">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </section>
+
+
+        <!-- Ultimos Eventos -->
+        <section id="latest-events" class="events-section">
+            <h2 class="section-title">Ultimos Eventos</h2>
+            <div class="events-grid">
+                <div class="event-card"></div>
+                <div class="event-card"></div>
+                <div class="event-card"></div>
+            </div>
+            <div class="events-controls">
+                <button class="control-btn"></button>
+                <button class="add-btn">+</button>
+                <button class="control-btn"></button>
+            </div>
+        </section>
+
+
+        <!-- Lanzamientos -->
+        <section id="releases" class="releases-section">
+            <h2 class="section-title">Lanzamientos</h2>
+            <div class="releases-controls">
+                <div class="toggle-switch">
+                    <button class="toggle-btn active">Nuevos lanzamientos</button>
+                    <button class="toggle-btn">Proximamente</button>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
+            <div class="releases-grid">
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 1</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 2</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 3</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 4</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 5</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 6</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 7</div>
+                </div>
+                <div class="release-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">Juego 8</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plataformas -->
+        <section id="platforms" class="platforms-section">
+            <h2 class="section-title">Plataformas</h2>
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-image"></div>
+                    <div class="platform-name">Plataforma 1</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-image"></div>
+                    <div class="platform-name">Plataforma 2</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-image"></div>
+                    <div class="platform-name">Plataforma 3</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-image"></div>
+                    <div class="platform-name">Plataforma 4</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compañías -->
+        <section id="companies" class="companies-section">
+            <div class="companies-container">
+                <div class="company-item">
+                    <div class="company-header">
+                        <h3>Compania 1: lema compania 1</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                </div>
+                <div class="company-item">
+                    <div class="company-header">
+                        <h3>Compania 2: lema compania 2</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                </div>
+                <div class="company-item expanded">
+                    <div class="company-header">
+                        <h3>Compania 3: lema compania 3</h3>
+                        <span class="toggle-icon">-</span>
+                    </div>
+                    <p class="company-desc">Lorem ipsum dolor sit amet consectetur adipiscing elit gravida, mollis turpis consequat litora ridiculus lectus nulla netus pulvinar, dictumst at cursus ante fringilla maecenas pharetra. Semper dictumst leo penatibus vehicula blandit suscipit libero et augue facilisi magnis ullamcorper.</p>
+                </div>
+                <div class="company-item">
+                    <div class="company-header">
+                        <h3>Compania 4: lema compania 4</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <!-- Pie de página -->
+        <div class="footer-content">
+            <div class="footer-left">
+                <p class="footer-label">preguntas</p>
+                <div class="contact-row">
+                    <p class="footer-email">correo@pip.com</p>
+                    <div class="social-icons">
+                        <span class="icon github-icon"></span>
+                        <span class="icon x-icon"></span>
+                        <span class="icon insta-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            @ Derechos de Autor. Autor Derechos
+        </div>
     </footer>
 
     <script src="../assets/js/api.js"></script>
