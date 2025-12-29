@@ -1,34 +1,244 @@
-<!-- Plantilla para listados de juegos (Top 100, Recientes, Próximos) -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Juegos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
+
 <body>
+
     <header>
-        <a href="../../main/index.html">Volver al Inicio</a>
+        <div class="header-container">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <nav>
+                <a href="../../main/index.html" class="nav-box">INICIO</a>
+                <a href="#" class="nav-box active">JUEGOS</a>
+                <a href="../companies/index.html" class="nav-box">COMPAÑIAS</a>
+                <a href="../platforms/index.html" class="nav-box">PLATAFORMAS</a>
+                <a href="../events/index.html" class="nav-box">EVENTOS</a>
+                <a href="../../about.html" class="nav-box">ACERCA DE</a>
+            </nav>
+        </div>
     </header>
+
+
+
+
     <main>
-        <h1 id="page-title">Juegos</h1>
+        <h1 class="page-title">Juegos</h1>
         
-        <!-- Controles de Ordenamiento y Filtrado -->
-        <div id="controls">
-            <select id="sort-by">
-                <option value="date_desc">Fecha (Descendente)</option>
-                <option value="date_asc">Fecha (Ascendente)</option>
-                <option value="name_asc">Alfabético (A-Z)</option>
-            </select>
-            <input type="text" id="filter-input" placeholder="Filtrar...">
+        <div class="filter-section">
+            <span class="filter-label">Filtrar por:</span>
+            <button id="open-filter-btn" class="filter-icon-btn" title="Abrir filtros">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6H20M7 12H17M10 18H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div id="active-filters" class="active-filters">
+                <!-- Las etiquetas de filtro aparecerán aquí -->
+            </div>
         </div>
 
-        <div id="games-list" class="grid-container">
-            <!-- Los juegos se cargarán aquí dinámicamente -->
+        <!-- Modal de Filtros -->
+        <div id="filter-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Filtrar</h2>
+                    <span class="close-btn">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <!-- Top 100 -->
+                    <div class="filter-item">
+                        <div class="filter-header-simple">
+                            <span>Top 100</span>
+                            <input type="checkbox" class="filter-checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Lanzamiento -->
+                    <div class="filter-item accordion">
+                        <div class="filter-header">
+                            <span>Lanzamiento</span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="filter-content">
+                            <label class="filter-option">
+                                <span>Hace -15 días (Recientes)</span>
+                                <input type="checkbox">
+                            </label>
+                            <label class="filter-option">
+                                <span>Hace +15 días (Antiguos)</span>
+                                <input type="checkbox">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Género -->
+                    <div class="filter-item accordion">
+                        <div class="filter-header">
+                            <span>Género</span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="filter-content">
+                            <label class="filter-option"><span>Acción</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Aventura</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>RPG</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Estrategia</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Deportes</span><input type="checkbox"></label>
+                        </div>
+                    </div>
+
+                    <!-- Modo de Juego -->
+                    <div class="filter-item accordion">
+                        <div class="filter-header">
+                            <span>Modo de Juego</span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="filter-content">
+                            <label class="filter-option"><span>Un jugador</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Multijugador</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Cooperativo</span><input type="checkbox"></label>
+                        </div>
+                    </div>
+
+                    <!-- Plataforma -->
+                    <div class="filter-item accordion">
+                        <div class="filter-header">
+                            <span>Plataforma</span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="filter-content">
+                            <label class="filter-option"><span>PC</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>PlayStation 5</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Xbox Series X</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Nintendo Switch</span><input type="checkbox"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="apply-filters-btn" class="apply-btn">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="games-container" class="games-grid">
+            <!-- Card 1 -->
+            <div class="game-card">
+                <h3 class="game-name color-red">Nombre Juego 1</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="game-card">
+                <h3 class="game-name color-black">Nombre Juego 2</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="game-card">
+                <h3 class="game-name color-purple">Nombre Juego 3</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="game-card">
+                <h3 class="game-name color-black">Nombre Juego 4</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="game-card">
+                <h3 class="game-name color-red">Nombre Juego 5</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="game-card">
+                <h3 class="game-name color-purple">Nombre Juego 6</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 7 -->
+            <div class="game-card">
+                <h3 class="game-name color-purple">Nombre Juego 7</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 8 -->
+            <div class="game-card">
+                <h3 class="game-name color-black">Nombre Juego 8</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+            <!-- Card 9 -->
+            <div class="game-card">
+                <h3 class="game-name color-red">Nombre Juego 9</h3>
+                <div class="game-tags">
+                    <span class="tag"></span>
+                    <span class="tag"></span>
+                </div>
+            </div>
+        </div>
+
+    <!--Boton de CARGAR MAS-->
+        <div class="load-more-container">
+            <button class="load-more-btn">Cargar mas</button>
         </div>
     </main>
+
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <p class="footer-label">preguntas</p>
+                <div class="contact-row">
+                    <p class="footer-email">correo@pip.com</p>
+                    <div class="social-icons">
+                        <span class="icon github-icon"></span>
+                        <span class="icon x-icon"></span>
+                        <span class="icon insta-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            @ Derechos de Autor. Autor Derechos
+        </div>
+    </footer>
+
     <script src="../../assets/js/api.js"></script>
     <script src="../../assets/js/main.js"></script>
-    <!-- Script específico para lógica de listados -->
 </body>
 </html>

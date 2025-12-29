@@ -56,12 +56,22 @@ section {
 
 .nav-box {
     display: inline-block;
-    width: 60px;
-    height: 20px;
+    padding: 8px 15px;
     background-color: #ffffff; 
     border: 1px solid var(--accent-color);
-    border-radius: 10px;
+    border-radius: 20px;
     margin-left: 10px;
+    text-decoration: none;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-box:hover {
+    background-color: var(--accent-color);
+    color: white;
 }
 
 /* Hero Section */
@@ -482,5 +492,493 @@ footer {
     padding: 1rem;
     border-top: 1px solid #ccc;
     color: #000;
+}
+
+
+
+/*----------------------------------------------------------------------- */
+                         /* Estilos Pagina Juegos */
+.page-title {
+    text-align: center;
+    font-size: 4rem;
+    color: var(--accent-color);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 800;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.filter-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Alineado a la izquierda */
+    gap: 10px; /* espacio entre el icono de "filtrar por" */
+    margin-bottom: 3rem;
+    padding: 0 50px; /* Padding lateral para alinear con el grid */
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.filter-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: serif;
+}
+
+.filter-select-wrapper {
+    position: relative;
+}
+
+.filter-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    border-radius: 20px;
+    padding: 10px 40px 10px 20px;
+    color: var(--accent-color);
+    font-size: 1rem;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.filter-select-wrapper::after {
+    content: '';
+    font-size: 0.6rem;
+    color: var(--accent-color);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 0 50px;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.game-name {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 800;
+}
+
+.color-red { color: var(--accent-color); }
+.color-black { color: #2c3e50; }
+.color-purple { color: #d8b4fe; }
+
+.game-tags {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.tag {
+    height: 12px;
+    width: 60px;
+    border: 1px solid;
+    border-radius: 10px;
+    display: block;
+}
+
+.game-card .tag { border-color: #e0e0e0; }
+.game-card:has(.color-red) .tag { border-color: #ffb6c1; }
+.game-card:has(.color-purple) .tag { border-color: #e6d0ff; }
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+.load-more-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 50px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    font-weight: 600;
+}
+
+.load-more-btn:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+    .filter-section {
+        flex-direction: column;
+    }
+}
+
+
+/* Estilos del Modal de Filtros */
+.filter-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.filter-icon-btn:hover {
+    background-color: rgba(255, 107, 129, 0.1);
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from {opacity: 0; transform: translateY(-50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: #fff0f5;
+    color: #333;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.filter-group {
+    margin-bottom: 25px;
+}
+
+.filter-group h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.filter-accordion {
+    background-color: #fff0f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-accordion:hover {
+    background-color: #ffe0e9;
+}
+
+.plus-icon {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+
+/* Estilo Acordeon Filtros */
+.filter-item {
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff0f5;
+}
+
+.filter-header, .filter-header-simple {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.filter-header:hover {
+    background-color: #ffe0e9;
+}
+
+.filter-content {
+    display: none;
+    padding: 0 20px 15px 20px;
+    background-color: #fff;
+    border-top: 1px solid #f0f0f0;
+}
+
+.filter-item.active .filter-content {
+    display: block;
+}
+
+.filter-item.active .toggle-icon {
+    transform: rotate(45deg); /* Convertir + en x */
+}
+
+.toggle-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s;
+    line-height: 1;
+}
+
+.filter-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.filter-option:last-child {
+    border-bottom: none;
+}
+
+.filter-option:hover {
+    color: var(--accent-color);
+}
+
+
+/* Estilo Boton Guardar Filtros */
+.modal-footer {
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+}
+
+.apply-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.3s;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(255, 107, 129, 0.2);
+}
+
+.apply-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+
+/* Estilos Etiquetas de Filtro Activas */
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex-grow: 1;
+    padding: 0 15px;
+}
+
+.filter-tag {
+    background-color: #fff0f5;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
+}
+
+.filter-tag-close {
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-tag-close:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+/****************** Estilos Vista de Pagina Top 100 **********************/
+.games-list-top100 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    padding: 0 20px;
+}
+
+.top100-card {
+    background-color: #fff0f5;
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    min-height: 120px;
+}
+
+/* Fondo blanco para el body cuando Top 100 está activo */
+body.top100-mode {
+    background-color: #ffffff;
+}
+
+.top100-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.top100-date {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.top100-name {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.top100-img-box {
+    width: 180px;
+    height: 100px;
+    background-color: #fff;
+    border: 1px solid #ffb6c1;
+    border-radius: 15px;
+}
+
+.top100-arrow {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.top100-arrow:hover {
+    transform: translateX(3px);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+/* Titulo especial para Top 100 */
+.page-title.top100-active {
+    font-size: 3rem;
+    margin-bottom: 1rem;
 }
 
