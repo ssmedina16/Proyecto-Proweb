@@ -112,3 +112,30 @@ const companiesData = [
 function getCompanyById(id) {
     return companiesData.find(company => company.id === parseInt(id));
 }
+
+
+
+//    Logica para la pagina de indice de compañias
+document.addEventListener('DOMContentLoaded', () => {
+    const companiesList = document.getElementById('companies-list');
+    
+    if (companiesList && typeof companiesData !== 'undefined') {
+        companiesData.forEach(company => {
+            const card = document.createElement('div');
+            card.className = 'company-card';
+            card.onclick = () => {
+                window.location.href = `detail.html?id=${company.id}`;
+            };
+            
+            card.innerHTML = `
+                <img src="${company.logo}" alt="${company.name}" class="company-card-img">
+                <div class="company-card-body">
+                    <h3 class="company-card-title">${company.name}</h3>
+                    <p class="company-card-desc">${company.description}</p>
+                </div>
+            `;
+            
+            companiesList.appendChild(card);
+        });
+    }
+});
