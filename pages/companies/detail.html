@@ -1,14 +1,142 @@
-<!-- Detalle de Compañía -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Compañía</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
 <body>
-    <div id="company-profile">
-        <!-- Logo, Descripción, Stats, Top 10 juegos -->
-    </div>
+    <header>
+        <div class="header-container">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <nav>
+                <a href="../../main/index.html" class="nav-box">INICIO</a>
+                <a href="../games/index.html" class="nav-box">JUEGOS</a>
+                <a href="index.html" class="nav-box active">COMPAÑIAS</a>
+                <a href="../platforms/index.html" class="nav-box">PLATAFORMAS</a>
+                <a href="../events/index.html" class="nav-box">EVENTOS</a>
+                <a href="../../about.html" class="nav-box">ACERCA DE</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="company-detail-main">
+        <!-- Company Header Info -->
+        <section class="company-header-section">
+            <div class="company-profile-top">
+                <div class="company-logo-container">
+                    <div class="company-logo-placeholder">Logo</div>
+                    <!-- <img src="" alt="Company Logo" class="company-logo" id="company-logo"> -->
+                </div>
+                <div class="company-info">
+                    <h1 id="company-name">Nombre de la Compañía</h1>
+                    <p class="company-description" id="company-description">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                    
+                    <div class="company-meta-grid">
+                        <div class="meta-item">
+                            <span class="label">Status:</span>
+                            <span class="value" id="company-status">Activo</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">País:</span>
+                            <span class="value" id="company-country">País</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">Rating Promedio:</span>
+                            <span class="value" id="company-rating">4.5/5</span>
+                        </div>
+                        <div class="meta-item full-width">
+                            <span class="label">Enlaces:</span>
+                            <div class="links-container" id="company-links">
+                                <a href="#" class="company-link">Sitio Web</a>
+                                <a href="#" class="company-link">Twitter</a>
+                                <a href="#" class="company-link">Facebook</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="company-stats-section">
+            <h2 class="section-title">Estadísticas</h2>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <h3>Por Plataforma</h3>
+                    <div id="stats-platform-list" class="stats-list">
+                        <div class="stat-item"><span>PC</span> <span>15 juegos</span></div>
+                        <div class="stat-item"><span>PlayStation 5</span> <span>10 juegos</span></div>
+                        <div class="stat-item"><span>Xbox Series X</span> <span>8 juegos</span></div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <h3>Por Género</h3>
+                    <div id="stats-genre-list" class="stats-list">
+                        <div class="stat-item"><span>Acción</span> <span>12 juegos</span></div>
+                        <div class="stat-item"><span>Aventura</span> <span>8 juegos</span></div>
+                        <div class="stat-item"><span>RPG</span> <span>5 juegos</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top 10 Games Section -->
+        <section class="company-top-games-section">
+            <h2 class="section-title">Top 10 Juegos Más Populares</h2>
+            <div class="top-games-grid" id="top-games-list">
+                <!-- 10 placeholders -->
+                <div class="game-card-small">Juego 1</div>
+                <div class="game-card-small">Juego 2</div>
+                <div class="game-card-small">Juego 3</div>
+                <div class="game-card-small">Juego 4</div>
+                <div class="game-card-small">Juego 5</div>
+                <div class="game-card-small">Juego 6</div>
+                <div class="game-card-small">Juego 7</div>
+                <div class="game-card-small">Juego 8</div>
+                <div class="game-card-small">Juego 9</div>
+                <div class="game-card-small">Juego 10</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <p class="footer-label">preguntas</p>
+                <div class="contact-row">
+                    <p class="footer-email">correo@pip.com</p>
+                    <div class="social-icons">
+                        <span class="icon github-icon"></span>
+                        <span class="icon x-icon"></span>
+                        <span class="icon insta-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+                <div class="footer-box"></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            @ Derechos de Autor. Autor Derechos
+        </div>
+    </footer>
+
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/companies.js"></script>
+    <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/company-detail.js"></script>
 </body>
 </html>

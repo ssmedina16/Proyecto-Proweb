@@ -24,8 +24,80 @@
         </div>
     </header>
     <main>
-        <h1>Desarrolladoras y Publishers</h1>
-        <div id="companies-list"></div>
+        <h1 style="text-align: center; color: var(--accent-color); margin-bottom: 30px;">Desarrolladoras y Publishers</h1>
+        <div id="companies-list" class="companies-grid"></div>
     </main>
+
+    <style>
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .company-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .company-card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .company-card-body {
+            padding: 15px;
+        }
+        .company-card-title {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 1.2rem;
+        }
+        .company-card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+
+    <script src="../../assets/js/companies.js"></script>
+    <script>
+        const companiesList = document.getElementById('companies-list');
+        
+        companiesData.forEach(company => {
+            const card = document.createElement('div');
+            card.className = 'company-card';
+            card.onclick = () => {
+                window.location.href = `detail.html?id=${company.id}`;
+            };
+            
+            card.innerHTML = `
+                <img src="${company.logo}" alt="${company.name}" class="company-card-img">
+                <div class="company-card-body">
+                    <h3 class="company-card-title">${company.name}</h3>
+                    <p class="company-card-desc">${company.description}</p>
+                </div>
+            `;
+            
+            companiesList.appendChild(card);
+        });
+    </script>
 </body>
 </html>
