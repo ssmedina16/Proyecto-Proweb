@@ -1,4 +1,7 @@
-/* Variables Globales - Modern 2024 */
+/*********************************************************/
+/**************ESTILOS (VARIABLES GLOBALES)****************/
+/*********************************************************/
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -67,9 +70,37 @@ section {
     margin: 0 auto;
 }
 
+/* Logo Styles */
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--accent-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+    margin-right: 20px;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 15px rgba(255, 107, 129, 0.4);
+}
+
+
+
+
+
 .search-bar {
     display: flex;
     align-items: center;
+    flex-grow: 1;
+    /* Para que ocupe espacio si es necesario */
+    justify-content: center;
+    /* Centrar search bar */
 }
 
 .search-bar input {
@@ -1594,4 +1625,25 @@ body.top100-mode {
     max-height: 4.5em;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Language Toggle Button */
+.lang-toggle-btn {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
 }

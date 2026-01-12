@@ -1,0 +1,380 @@
+/* Gaming Atmosphere Enhancement */
+/* Importar fuentes gaming */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+/* ============================================
+   1. TIPOGRAFÍA GAMING
+   ============================================ */
+body {
+    font-family: 'Rajdhani', 'Inter', sans-serif !important;
+    font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+.section-title,
+.game-title,
+.platform-name,
+.event-title {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   2. EFECTOS NEÓN Y GLOW
+   ============================================ */
+
+/* Glow en botones */
+.nav-box,
+.toggle-btn.active,
+.add-btn,
+.view-all-btn,
+.plus-icon,
+.official-btn,
+.filter-btn {
+    text-shadow: 0 0 10px rgba(255, 107, 129, 0.5);
+    box-shadow:
+        0 0 10px rgba(255, 107, 129, 0.3),
+        0 0 20px rgba(255, 107, 129, 0.2),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.nav-box:hover,
+.toggle-btn:hover,
+.plus-icon:hover {
+    box-shadow:
+        0 0 15px rgba(255, 107, 129, 0.6),
+        0 0 30px rgba(255, 107, 129, 0.4),
+        0 0 45px rgba(255, 107, 129, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Glow en bordes de tarjetas */
+.featured-card,
+.release-card,
+.event-card,
+.platform-card,
+.top-game-card {
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 107, 129, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-card:hover,
+.release-card:hover,
+.event-card:hover,
+.platform-card:hover,
+.top-game-card:hover {
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 107, 129, 0.4),
+        0 0 40px rgba(255, 107, 129, 0.2);
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* Bordes con glow en círculos */
+.circle-img {
+    box-shadow:
+        0 0 15px rgba(255, 107, 129, 0.3),
+        inset 0 0 15px rgba(255, 107, 129, 0.1);
+}
+
+/* ============================================
+   3. BACKGROUND PATTERN GAMING
+   ============================================ */
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.03;
+    background-image:
+        linear-gradient(rgba(255, 107, 129, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 107, 129, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+}
+
+/* Hexagon pattern opcional */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill='none' stroke='%23ff6b81' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+/* ============================================
+   4. GRADIENTES ANIMADOS
+   ============================================ */
+
+/* Gradiente en header */
+header {
+    background: linear-gradient(135deg,
+            rgba(44, 44, 44, 0.98) 0%,
+            rgba(60, 60, 60, 0.98) 50%,
+            rgba(44, 44, 44, 0.98) 100%);
+    position: relative;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 107, 129, 0.1),
+            transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* Gradientes en cards */
+.card-border {
+    background: linear-gradient(135deg,
+            #ffffff 0%,
+            #fef5f7 100%);
+}
+
+/* ============================================
+   5. ANIMACIONES MEJORADAS
+   ============================================ */
+
+/* Hover más dramático */
+.game-card,
+.release-card,
+.event-card {
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-card:hover,
+.release-card:hover,
+.event-card:hover {
+    transform: translateY(-12px) rotateX(5deg) scale(1.03);
+}
+
+/* Efecto de pulsación en botones importantes */
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 10px rgba(255, 107, 129, 0.4),
+            0 0 20px rgba(255, 107, 129, 0.2);
+    }
+
+    50% {
+        box-shadow:
+            0 0 20px rgba(255, 107, 129, 0.6),
+            0 0 40px rgba(255, 107, 129, 0.4);
+    }
+}
+
+.plus-icon {
+    animation: pulse-glow 2s infinite;
+}
+
+/* ============================================
+   6. SCAN LINES (CRT Effect)
+   ============================================ */
+
+main::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.3) 2px,
+            rgba(0, 0, 0, 0.3) 4px);
+}
+
+/* ============================================
+   7. CURSOR PERSONALIZADO (Opcional)
+   ============================================ */
+
+body {
+    cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%23ff6b81' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23ff6b81'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+a,
+button,
+.clickable {
+    cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23ff6b81' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%23ff6b81'/%3E%3C/svg%3E") 12 12, pointer;
+}
+
+/* ============================================
+   8. EFECTOS DE PARTÍCULAS FLOTANTES
+   ============================================ */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 0.6;
+    }
+}
+
+/* Partículas en el fondo */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 107, 129, 0.5);
+    border-radius: 50%;
+    animation: float 6s infinite ease-in-out;
+}
+
+/* ============================================
+   9. LOADING ANIMATIONS
+   ============================================ */
+
+@keyframes spin-glow {
+    0% {
+        transform: rotate(0deg);
+        filter: drop-shadow(0 0 5px rgba(255, 107, 129, 0.5));
+    }
+
+    100% {
+        transform: rotate(360deg);
+        filter: drop-shadow(0 0 15px rgba(255, 107, 129, 0.8));
+    }
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 107, 129, 0.2);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin-glow 1s linear infinite;
+}
+
+/* ============================================
+   10. MEJORAS EN BARRA DE PROGRESO
+   ============================================ */
+
+.carousel-progress-fill {
+    background: linear-gradient(90deg,
+            var(--accent-color) 0%,
+            #d8b4fe 50%,
+            var(--accent-color) 100%);
+    background-size: 200% 100%;
+    animation: progress-shimmer 2s linear infinite;
+    box-shadow:
+        0 0 10px rgba(255, 107, 129, 0.5),
+        0 0 20px rgba(255, 107, 129, 0.3);
+}
+
+@keyframes progress-shimmer {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 200% 0%;
+    }
+}
+
+/* ============================================
+   11. ICONOGRAFÍA GAMING
+   ============================================ */
+
+/* Achievement-style badges */
+.achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    background: linear-gradient(135deg, rgba(255, 107, 129, 0.2), rgba(216, 180, 254, 0.2));
+    border: 1px solid rgba(255, 107, 129, 0.5);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255, 107, 129, 0.3);
+}
+
+/* ============================================
+   12. RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Reduce effects on mobile for performance */
+    body::before,
+    body::after,
+    main::before {
+        opacity: 0.01;
+    }
+
+    .plus-icon {
+        animation: none;
+    }
+
+    header::before {
+        animation: none;
+    }
+}
+
+/* ============================================
+   13. ACCESIBILIDAD
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

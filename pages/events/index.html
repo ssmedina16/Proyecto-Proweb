@@ -8,22 +8,25 @@
     <title>Eventos</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="../../assets/css/events.css">
+    <link rel="stylesheet" href="../../assets/css/gaming-effects.css">
+    <link rel="stylesheet" href="../../assets/css/sdg-game.css">
 </head>
 
 <body>
     <header>
         <div class="header-container">
+            <a href="../../main/index.html" class="logo">8BIT LORE</a>
             <div class="search-bar">
-                <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Buscar...">
+                <span class="search-icon"></span>
+                <input type="text" placeholder="Buscar..." data-i18n-placeholder="search_placeholder">
             </div>
             <nav>
-                <a href="../../main/index.html" class="nav-box">INICIO</a>
-                <a href="../games/index.html" class="nav-box">JUEGOS</a>
-                <a href="../companies/index.html" class="nav-box">COMPAÑÍAS</a>
-                <a href="../platforms/index.html" class="nav-box">PLATAFORMAS</a>
-                <a href="#" class="nav-box active">EVENTOS</a>
-                <a href="../../about.html" class="nav-box">ACERCA DE</a>
+                <a href="../../main/index.html" class="nav-box" data-i18n="nav_home">INICIO</a>
+                <a href="../games/index.html" class="nav-box" data-i18n="nav_games">JUEGOS</a>
+                <a href="../companies/index.html" class="nav-box" data-i18n="nav_companies">COMPAÑÍAS</a>
+                <a href="../platforms/index.html" class="nav-box" data-i18n="nav_platforms">PLATAFORMAS</a>
+                <a href="#" class="nav-box active" data-i18n="nav_events">EVENTOS</a>
+                <a href="../../about.html" class="nav-box" data-i18n="nav_about">ACERCA DE</a>
             </nav>
         </div>
     </header>
@@ -165,24 +168,26 @@
 
             <div class="footer-contact">
                 <h4>Contáctanos</h4>
-                <a href="mailto:info@gamehub.com" class="email-link">
+                <a href="mailto:info@8bitlore.com" class="email-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
-                    info@gamehub.com
+                    info@8bitlore.com
                 </a>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 GameHub. Todos los derechos reservados.</p>
+            <p>&copy; 2024 8BIT LORE. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script src="../../assets/js/api.js"></script>
     <script src="../../assets/js/events.js"></script>
+    <script src="../../assets/js/i18n.js"></script>
+    <script src="../../assets/js/sdg-game.js"></script>
 </body>
 
 </html>

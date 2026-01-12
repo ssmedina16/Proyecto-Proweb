@@ -1,6 +1,10 @@
-// About Page - PlayStation-Style Carousels
+//*********PAGINA ACERCA DE*******/
 
-// Technologies data
+
+/*********************************************************/
+/*********************DATOS DE TECNOLOGIAS***************/
+/*******************************************************/
+
 const technologiesData = [
     {
         id: 1,
@@ -28,7 +32,10 @@ const technologiesData = [
     }
 ];
 
-// Team members data
+/*********************************************************/
+/*********************DATOS DE NOSOTROS*******************/
+/*********************************************************/
+
 const teamData = [
     {
         id: 1,
@@ -46,21 +53,29 @@ const teamData = [
         id: 3,
         name: "Charbel",
         role: "Desarrollador",
-        description: "Soy Charbel."
+        description: "Soy estudiante de Ingeniería Informática en la Universidad Católica Andrés Bello (UCAB). A mis 19 años, combino mi formación académica con una pasión creciente por el desarrollo web y por construir interfaces limpias, funcionales y bien pensadas. Me considero una persona analítica, detallista y orientada a la mejora continua. Disfruto entender cómo cada decisión técnica impacta la experiencia del usuario y cómo un diseño modular puede transformar un proyecto en algo escalable y elegante. Mi objetivo no es solo programar, sino crear soluciones que integren lógica, estética y eficiencia."
     }
 ];
 
 let currentTechIndex = 0;
 let currentTeamIndex = 0;
 
-// Initialize page
+/*********************************************************/
+/*********************INICIALIZACION*******************/
+/*********************************************************/
+
 document.addEventListener('DOMContentLoaded', () => {
     loadTechCarousel();
     loadTeamCarousel();
     setupNavigationHandlers();
+    setupContactForm();
+    updateRecipient(); // Set initial recipient
 });
 
-// Load technologies carousel
+/*********************************************************/
+/***************************FUNCIONES*********************/
+/*********************************************************/
+
 function loadTechCarousel() {
     const carousel = document.getElementById('tech-carousel');
     carousel.innerHTML = '';
@@ -84,7 +99,10 @@ function loadTechCarousel() {
     updateTechInfo();
 }
 
-// Load team carousel
+/*********************************************************/
+/***************************CARGAR CAROUSEL*****************/
+/*********************************************************/
+
 function loadTeamCarousel() {
     const carousel = document.getElementById('team-carousel');
     carousel.innerHTML = '';
@@ -108,7 +126,10 @@ function loadTeamCarousel() {
     updateTeamInfo();
 }
 
-// Select technology
+/*********************************************************/
+/**************SELECCIONAR (TECNOLOGIA)*******************/
+/*********************************************************/
+
 function selectTech(index) {
     currentTechIndex = index;
 
@@ -120,7 +141,10 @@ function selectTech(index) {
     updateTechInfo();
 }
 
-// Select team member
+/*********************************************************/
+/*******SELECCIONAR (MIEMBRO EQUIPO)*******************/
+/*********************************************************/
+
 function selectTeam(index) {
     currentTeamIndex = index;
 
@@ -130,25 +154,34 @@ function selectTeam(index) {
     });
 
     updateTeamInfo();
+    updateRecipient(); // Update form recipient when team member changes
 }
 
-// Update tech info display
+/*********************************************************/
+/**************ACTUALIZAR (TECNOLOGIA)*******************/
+/*********************************************************/
+
 function updateTechInfo() {
     const tech = technologiesData[currentTechIndex];
     document.getElementById('tech-name').textContent = tech.name;
     document.getElementById('tech-description').textContent = tech.description;
 }
 
-// Update team info display
+/*********************************************************/
+/**************ACTUALIZAR (MIEMBRO EQUIPO)*******************/
+/*********************************************************/
+
 function updateTeamInfo() {
     const member = teamData[currentTeamIndex];
     document.getElementById('team-name').textContent = `${member.name} - ${member.role}`;
     document.getElementById('team-description').textContent = member.description;
 }
 
-// Setup navigation handlers
+/*********************************************************/
+/**************CONFIGURACION (NAVEGACION)*******************/
+/*********************************************************/
+
 function setupNavigationHandlers() {
-    // Tech navigation
     document.getElementById('tech-prev').addEventListener('click', () => {
         currentTechIndex = (currentTechIndex - 1 + technologiesData.length) % technologiesData.length;
         selectTech(currentTechIndex);
@@ -159,7 +192,6 @@ function setupNavigationHandlers() {
         selectTech(currentTechIndex);
     });
 
-    // Team navigation
     document.getElementById('team-prev').addEventListener('click', () => {
         currentTeamIndex = (currentTeamIndex - 1 + teamData.length) % teamData.length;
         selectTeam(currentTeamIndex);
@@ -170,16 +202,139 @@ function setupNavigationHandlers() {
         selectTeam(currentTeamIndex);
     });
 
-    // Keyboard navigation
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-            // Navigate tech carousel
             currentTechIndex = (currentTechIndex - 1 + technologiesData.length) % technologiesData.length;
             selectTech(currentTechIndex);
         } else if (e.key === 'ArrowRight') {
-            // Navigate tech carousel
             currentTechIndex = (currentTechIndex + 1) % technologiesData.length;
             selectTech(currentTechIndex);
         }
     });
+}
+
+/*********************************************************/
+/**************CONTACT FORM FUNCTIONS*********************/
+/*********************************************************/
+
+const EMAILJS_CONFIG = {
+    serviceID: 'service_me0fjom',
+    templateID: 'template_92cwcns',
+    publicKey: 'FwxHq5eAYIGH7iuYC'
+};
+
+const teamEmails = {
+    'Sara': 'sbpapaianni.24@est.ucab.edu.ve',
+    'Santiago': 'ssmedina.24@est.ucab.edu.ve',
+    'Charbel': 'cskhalil.24@est.ucab.edu.ve'
+};
+
+(function () {
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_CONFIG.publicKey);
+    }
+})();
+
+function updateRecipient() {
+    const currentMember = teamData[currentTeamIndex];
+    document.getElementById('recipient-name').textContent = currentMember.name;
+}
+
+// Setup contact form submission
+function setupContactForm() {
+    const form = document.getElementById('contact-form');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleFormSubmit();
+    });
+}
+
+// Handle form submission with EmailJS
+function handleFormSubmit() {
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const subject = document.getElementById('contact-subject').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+
+    // Validate
+    if (!name || !email || !subject || !message) {
+        showFormStatus('Por favor completa todos los campos', 'error');
+        return;
+    }
+
+    // Get current recipient
+    const currentMember = teamData[currentTeamIndex];
+    const recipientEmail = teamEmails[currentMember.name];
+
+    // Disable submit button
+    const submitBtn = document.querySelector('.form-submit-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+
+    // Check if EmailJS is loaded
+    if (typeof emailjs === 'undefined') {
+        showFormStatus('Error: Servicio de email no disponible.', 'error');
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        return;
+    }
+
+    // Template parameters for EmailJS
+    const templateParams = {
+        to_email: recipientEmail,
+        to_name: currentMember.name,
+        from_name: name,
+        from_email: email,
+        subject: subject,
+        message: message,
+        reply_to: email
+    };
+
+    // Send email using EmailJS
+    emailjs.send(EMAILJS_CONFIG.serviceID, EMAILJS_CONFIG.templateID, templateParams)
+        .then(function (response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showSuccess(currentMember.name);
+        }, function (error) {
+            console.error('FAILED...', error);
+
+            // DEBUG: Mostrar el error real del servidor
+            // Esto ayudará a saber por qué falla (Service ID incorrecto, Template ID, etc)
+            let errorMsg = "Error desconocido";
+            if (error.text) errorMsg = error.text;
+            else if (JSON.stringify(error)) errorMsg = JSON.stringify(error);
+
+            showFormStatus(`❌ Error Real: ${errorMsg}. Revisa la consola F12.`, 'error');
+
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+
+    function showSuccess(memberName) {
+        showFormStatus(`✅ Mensaje enviado exitosamente a ${memberName}!`, 'success');
+
+        setTimeout(() => {
+            document.getElementById('contact-form').reset();
+            hideFormStatus();
+        }, 3000);
+
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+// Show form status message
+function showFormStatus(message, type) {
+    const statusDiv = document.getElementById('form-status');
+    statusDiv.textContent = message;
+    statusDiv.className = `form-status ${type}`;
+}
+
+// Hide form status
+function hideFormStatus() {
+    const statusDiv = document.getElementById('form-status');
+    statusDiv.className = 'form-status';
 }

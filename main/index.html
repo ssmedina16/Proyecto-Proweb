@@ -7,6 +7,8 @@
     <title>Pagina Proyecto</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/top-games.css">
+    <link rel="stylesheet" href="../assets/css/gaming-effects.css">
+    <link rel="stylesheet" href="../assets/css/sdg-game.css">
 </head>
 
 
@@ -14,17 +16,18 @@
 
     <header>
         <div class="header-container">
+            <a href="index.html" class="logo">8BIT LORE</a>
             <div class="search-bar">
                 <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Buscar...">
+                <input type="text" placeholder="Buscar..." data-i18n-placeholder="search_placeholder">
             </div>
             <nav>
-                <a href="#" class="nav-box active">INICIO</a>
-                <a href="../pages/games/index.html" class="nav-box">JUEGOS</a>
-                <a href="../pages/companies/index.html" class="nav-box">COMPAÑIAS</a>
-                <a href="../pages/platforms/index.html" class="nav-box">PLATAFORMAS</a>
-                <a href="../pages/events/index.html" class="nav-box">EVENTOS</a>
-                <a href="../about.html" class="nav-box">ACERCA DE</a>
+                <a href="#" class="nav-box active" data-i18n="nav_home">INICIO</a>
+                <a href="../pages/games/index.html" class="nav-box" data-i18n="nav_games">JUEGOS</a>
+                <a href="../pages/companies/index.html" class="nav-box" data-i18n="nav_companies">COMPAÑIAS</a>
+                <a href="../pages/platforms/index.html" class="nav-box" data-i18n="nav_platforms">PLATAFORMAS</a>
+                <a href="../pages/events/index.html" class="nav-box" data-i18n="nav_events">EVENTOS</a>
+                <a href="../about.html" class="nav-box" data-i18n="nav_about">ACERCA DE</a>
             </nav>
         </div>
     </header>
@@ -433,9 +436,9 @@
     <footer>
         <div class="footer-content">
             <div class="footer-left">
-                <p class="footer-label">preguntas</p>
+                <p class="footer-label" data-i18n="footer_questions">preguntas</p>
                 <div class="footer-social">
-                    <h4>Síguenos</h4>
+                    <h4 data-i18n="footer_follow">Síguenos</h4>
                     <div class="social-icons">
                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon"
                             title="Facebook">
@@ -473,21 +476,21 @@
                 </div>
 
                 <div class="footer-contact">
-                    <h4>Contáctanos</h4>
-                    <a href="mailto:info@gamehub.com" class="email-link">
+                    <h4 data-i18n="footer_contact">Contáctanos</h4>
+                    <a href="mailto:info@8bitlore.com" class="email-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
                             </path>
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
-                        info@gamehub.com
+                        info@8bitlore.com
                     </a>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 GameHub. Todos los derechos reservados.</p>
+                <p data-i18n="footer_rights">&copy; 2024 8BIT LORE. Todos los derechos reservados.</p>
             </div>
     </footer>
 
@@ -496,8 +499,11 @@
     <script src="../assets/js/featured-carousel.js"></script>
     <script src="../assets/js/releases-toggle.js"></script>
     <script src="../assets/js/companies-accordion.js"></script>
+    <script src="../assets/js/i18n.js"></script>
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/home.js"></script>
+    <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/sdg-game.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,219 @@
+/* SDG Scavenger Hunt Styles */
+
+/* HUD Counter */
+#sdg-counter-hud {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid #00ffff;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 0 15px #00ffff, inset 0 0 10px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+#sdg-counter-hud:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #00ffff;
+}
+
+.sdg-hud-icon {
+    font-size: 1.2rem;
+    animation: spinEarth 10s linear infinite;
+}
+
+@keyframes spinEarth {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hidden SDG Icons (Images) */
+.hidden-sdg-icon {
+    position: absolute;
+    width: 60px;
+    /* Tamaño inicial */
+    height: 60px;
+    cursor: pointer;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+    animation: floatSDG 4s ease-in-out infinite;
+
+    /* Image styling */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    /* ODS son cuadrados, un poco de borde redondeado se ve bien */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.hidden-sdg-icon:hover {
+    transform: scale(1.15) rotate(5deg);
+    border-color: #fff;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+    z-index: 101;
+}
+
+@keyframes floatSDG {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* READING MODE (Zoom Effect) */
+.sdg-reading-mode {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(5) !important;
+    /* Zoom grande */
+    z-index: 10000 !important;
+    width: 100px !important;
+    /* Base size increases via scale, or we can set strict px here */
+    height: 100px !important;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 100px rgba(0, 0, 0, 0.9) !important;
+    animation: none !important;
+    /* Stop floating */
+    cursor: default !important;
+}
+
+/* Backdrop when reading */
+#sdg-reading-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+#sdg-reading-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Victory Modal */
+#sdg-victory-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    /* Semi-transparent light */
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 11000;
+    font-family: 'Orbitron', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+#sdg-victory-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.sdg-victory-content {
+    text-align: center;
+    animation: victoryPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(135deg, #ffffff 0%, #fff0f5 100%);
+    /* White to Lavender Blush */
+    padding: 50px;
+    border-radius: 30px;
+    border: 3px solid #ff6b81;
+    /* Primary Pink */
+    box-shadow: 0 20px 60px rgba(255, 107, 129, 0.25);
+    max-width: 90%;
+    color: #333;
+}
+
+.sdg-victory-title {
+    font-size: 3rem;
+    color: #ff6b81;
+    text-shadow: 2px 2px 0px #ffcccf;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.sdg-victory-text {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 35px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+}
+
+.sdg-grid-display {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.sdg-final-item {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    transition: transform 0.2s;
+}
+
+.sdg-final-item:hover {
+    transform: scale(1.5);
+    z-index: 10;
+}
+
+@keyframes victoryPop {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .sdg-reading-mode {
+        transform: translate(-50%, -50%) scale(3) !important;
+        /* Menor zoom en movil */
+    }
+}

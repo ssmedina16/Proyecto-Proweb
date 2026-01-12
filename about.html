@@ -8,29 +8,32 @@
     <title>Acerca del Proyecto</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/about.css">
+    <link rel="stylesheet" href="assets/css/gaming-effects.css">
+    <link rel="stylesheet" href="assets/css/sdg-game.css">
 </head>
 
 <body>
     <header>
         <div class="header-container">
+            <a href="main/index.html" class="logo">8BIT LORE</a>
             <div class="search-bar">
                 <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Buscar...">
+                <input type="text" placeholder="Buscar..." data-i18n-placeholder="search_placeholder">
             </div>
             <nav>
-                <a href="main/index.html" class="nav-box">INICIO</a>
-                <a href="pages/games/index.html" class="nav-box">JUEGOS</a>
-                <a href="pages/companies/index.html" class="nav-box">COMPAÑÍAS</a>
-                <a href="pages/platforms/index.html" class="nav-box">PLATAFORMAS</a>
-                <a href="pages/events/index.html" class="nav-box">EVENTOS</a>
-                <a href="#" class="nav-box active">ACERCA DE</a>
+                <a href="main/index.html" class="nav-box" data-i18n="nav_home">INICIO</a>
+                <a href="pages/games/index.html" class="nav-box" data-i18n="nav_games">JUEGOS</a>
+                <a href="pages/companies/index.html" class="nav-box" data-i18n="nav_companies">COMPAÑÍAS</a>
+                <a href="pages/platforms/index.html" class="nav-box" data-i18n="nav_platforms">PLATAFORMAS</a>
+                <a href="pages/events/index.html" class="nav-box" data-i18n="nav_events">EVENTOS</a>
+                <a href="#" class="nav-box active" data-i18n="nav_about">ACERCA DE</a>
             </nav>
         </div>
     </header>
 
     <main class="about-main">
         <h1 class="about-title">Acerca del Proyecto</h1>
-        <p class="about-subtitle">GameHub - Tu portal de información de videojuegos</p>
+        <p class="about-subtitle">8BIT LORE - Tu portal de información de videojuegos</p>
 
         <!-- Technologies Section -->
         <section class="carousel-section">
@@ -64,6 +67,44 @@
             </div>
         </section>
     </main>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2 class="contact-title">Contáctanos</h2>
+            <p class="contact-subtitle">Envía tu mensaje al miembro del equipo seleccionado</p>
+
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="contact-name" name="name" placeholder="Nombre*" required class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="contact-email" name="email" placeholder="E-mail*" required
+                        class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="contact-subject" name="subject" placeholder="Asunto*" required
+                        class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <textarea id="contact-message" name="message" placeholder="Mensaje*" rows="5" required
+                        class="form-input form-textarea"></textarea>
+                </div>
+
+                <div class="form-recipient">
+                    <span class="recipient-label">Enviando mensaje a:</span>
+                    <span id="recipient-name" class="recipient-name">Sara</span>
+                </div>
+
+                <button type="submit" class="form-submit-btn">Enviar</button>
+
+                <div id="form-status" class="form-status"></div>
+            </form>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
@@ -107,24 +148,27 @@
             </div>
 
             <div class="footer-contact">
-                <h4>Contáctanos</h4>
-                <a href="mailto:info@gamehub.com" class="email-link">
+                <h4 data-i18n="footer_contact">Contáctanos</h4>
+                <a href="mailto:info@8bitlore.com" class="email-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
-                    info@gamehub.com
+                    info@8bitlore.com
                 </a>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 GameHub. Todos los derechos reservados.</p>
+            <p data-i18n="footer_rights">&copy; 2024 8BIT LORE. Todos los derechos reservados.</p>
         </div>
     </footer>
 
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="assets/js/about.js"></script>
+    <script src="assets/js/sdg-game.js"></script>
 </body>
 
 </html>
