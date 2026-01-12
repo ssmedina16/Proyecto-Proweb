@@ -1,0 +1,119 @@
+/* Top 20 Games Section - Nintendo Style Grid */
+.top-20-games {
+    padding: 2rem 0;
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.view-all-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+/* Grid Layout */
+.top-20-games .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card Design - Matches 'Nintendo' Style */
+.top-game-card {
+    background-color: var(--card-bg-color, #2c2c2c);
+    /* Default dark grey border/bg */
+    padding: 15px;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+}
+
+.top-game-card:hover {
+    transform: translateY(-5px);
+}
+
+.top-game-card .card-border {
+    background-color: #fff;
+    /* White inner card */
+    color: #333;
+    padding: 20px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.top-game-card .circle-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-color, #ff6b81);
+    margin: 0 auto 15px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #eee;
+}
+
+.top-game-card .plus-icon {
+    background-color: var(--accent-color, #ff6b81);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(25%, -25%);
+    /* Position on the circle edge */
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid white;
+    /* Thicker white border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    /* Prominent shadow */
+    z-index: 10;
+}
+
+.top-game-card .plus-icon:hover {
+    transform: translate(25%, -25%) scale(1.15);
+    background-color: #d8b4fe;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+    /* Stronger shadow on hover */
+}
+
+.top-game-card .game-title {
+    color: var(--accent-color, #ff6b81);
+    font-size: 1.2rem;
+    margin: 15px 0 10px;
+    font-weight: bold;
+}
+
+.top-game-card .descrip-game {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    /* Limit text lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
