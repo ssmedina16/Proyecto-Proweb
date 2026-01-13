@@ -504,3 +504,5 @@ function populateSimilarGames(similarGames) {
         section.style.display = 'block';
     }
 }
+ 
+ 

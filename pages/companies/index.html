@@ -70,13 +70,13 @@
                 <span class="company-modal-close">&times;</span>
 
                 <div class="company-modal-body">
-                    <!-- Company Header -->
+                    <!-- Company Header-->
                     <div class="company-modal-header">
                         <img id="modal-company-logo" src="" alt="Company Logo" class="company-logo-large">
                         <h2 id="modal-company-name"></h2>
                     </div>
 
-                    <!-- Company Info -->
+                    <!-- Company Info Grid -->
                     <div class="company-modal-details">
                         <div class="company-info-grid">
                             <div class="info-item">
@@ -88,28 +88,61 @@
                                 <span id="modal-country"></span>
                             </div>
                             <div class="info-item">
+                                <strong>📊 Status:</strong>
+                                <span id="modal-status">Activo</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>⭐ Rating Promedio:</strong>
+                                <span id="modal-rating">-</span>
+                            </div>
+                            <div class="info-item">
                                 <strong>🏢 Tipo:</strong>
                                 <span id="modal-type"></span>
                             </div>
                         </div>
 
                         <!-- Description -->
-                        <div class="detail-section">
-                            <h3>Acerca de</h3>
-                            <p id="modal-description"></p>
+                        <div class="company-description" id="modal-description"></div>
+
+                        <!-- Websites/Links -->
+                        <div class="company-websites" id="modal-websites" style="display: none;">
+                            <h3>🔗 Enlaces</h3>
+                            <div id="modal-websites-list" class="websites-list"></div>
                         </div>
 
-                        <!-- Games -->
-                        <div class="detail-section">
+                        <!-- Stats Section -->
+                        <div class="company-stats" id="modal-stats" style="display: none;">
+                            <h3>📊 Estadísticas</h3>
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <h4>Por Plataforma</h4>
+                                    <div id="modal-platform-stats" class="stats-list"></div>
+                                </div>
+                                <div class="stat-box">
+                                    <h4>Por Género</h4>
+                                    <div id="modal-genre-stats" class="stats-list"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DLCs Section -->
+                        <div class="company-dlcs" id="modal-dlcs" style="display: none;">
+                            <h3>🎮 DLCs y Expansiones</h3>
+                            <div id="modal-dlcs-list" class="dlcs-list"></div>
+                        </div>
+
+                        <!-- Top 10 Games -->
+                        <div class="company-top-games" id="modal-top-games" style="display: none;">
+                            <h3>🏆 Top 10 Juegos</h3>
+                            <div id="modal-top-games-list" class="top-games-list"></div>
+                        </div>
+
+                        <!-- Featured Games -->
+                        <div class="company-featured-games">
                             <h3>🎮 Juegos Destacados</h3>
-                            <div id="modal-games" class="company-games-grid"></div>
-                        </div>
-
-                        <!-- Website -->
-                        <div class="detail-section" id="modal-website-section">
-                            <a id="modal-website" href="#" target="_blank" class="website-btn">
-                                Visitar Sitio Web →
-                            </a>
+                            <div class="featured-games-list" id="modal-games-list">
+                                <!-- Games will be loaded here -->
+                            </div>
                         </div>
                     </div>
                 </div>
