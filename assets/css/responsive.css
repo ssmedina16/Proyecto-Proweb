@@ -229,18 +229,73 @@
         width: 60px !important;
         height: 60px !important;
     }
-}
 
-/* Fix modal on mobile */
-@media (max-width: 768px) {
+    /* Fix modal on mobile */
+    @media (max-width: 768px) {
 
-    .modal-content,
-    .game-modal-content,
-    .company-modal-content,
-    .event-modal-content {
-        width: 95% !important;
-        max-width: 95% !important;
-        margin: 1rem auto !important;
-        padding: 1rem !important;
+        .modal-content,
+        .game-modal-content,
+        .company-modal-content,
+        .event-modal-content {
+            width: 95% !important;
+            max-width: 95% !important;
+            margin: 1rem auto !important;
+            padding: 1rem !important;
+        }
     }
-}
+
+    /* FIX CARD OVERLAP - Prevent cards from overlapping banners */
+    @media (max-width: 968px) {
+
+        .game-card,
+        .company-card,
+        .event-card,
+        .platform-card,
+        .top-game-card,
+        .release-card {
+            position: relative !important;
+            z-index: 1 !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        /* Banner/Hero sections higher z-index */
+        .hero-section,
+        .banner,
+        .carousel-container,
+        header {
+            position: relative !important;
+            z-index: 10 !important;
+        }
+
+        /* Main sections normal stacking */
+        section {
+            position: relative !important;
+            z-index: 2 !important;
+        }
+    }
+
+    /* FIX ABOUT PAGE - Center team member images on mobile */
+    @media (max-width: 768px) {
+        .team-member {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+        }
+
+        .member-image {
+            margin: 0 auto 1rem auto !important;
+            float: none !important;
+        }
+
+        .member-info {
+            margin-left: 0 !important;
+            text-align: center !important;
+        }
+
+        /* Alternative layout for team members */
+        .team-member.left .member-image,
+        .team-member.right .member-image {
+            float: none !important;
+            margin: 0 auto 1rem auto !important;
+        }
+    }
