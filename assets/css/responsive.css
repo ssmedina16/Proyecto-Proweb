@@ -1,6 +1,25 @@
 /* ================================================
-   MOBILE RESPONSIVE DESIGN - CRITICAL FIXES
+   MOBILE RESPONSIVE DESIGN - IMPROVED
    ================================================ */
+
+/* Logo becomes clickable menu button on mobile */
+@media (max-width: 968px) {
+    .logo {
+        cursor: pointer;
+        position: relative;
+        font-size: 1.5rem !important;
+    }
+
+    .logo::after {
+        content: " ☰";
+        font-size: 1.5rem;
+        margin-left: 10px;
+    }
+
+    .logo.menu-open::after {
+        content: " ✕";
+    }
+}
 
 /* Tablet and Mobile */
 @media (max-width: 968px) {
@@ -13,10 +32,7 @@
     .header-container {
         flex-wrap: wrap;
         gap: 1rem;
-    }
-
-    .logo {
-        font-size: 1.5rem !important;
+        justify-content: space-between;
     }
 
     /* Navigation - hide by default on mobile */
@@ -24,13 +40,16 @@
         display: none !important;
         position: fixed;
         top: 70px;
+        left: 0;
         right: 0;
         background: white;
         flex-direction: column !important;
-        width: 250px;
+        width: 100%;
         padding: 1rem;
-        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         z-index: 999;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
 
     nav.mobile-open {
@@ -40,17 +59,32 @@
     nav .nav-box {
         width: 100%;
         text-align: center;
-        padding: 0.75rem !important;
-        margin: 0.25rem 0;
+        padding: 1rem !important;
+        margin: 0.5rem 0;
+        border-radius: 8px;
     }
 
     .search-bar {
-        order: 3;
+        order: 2;
         width: 100%;
     }
 
     .search-bar input {
         width: 100%;
+    }
+
+    /* LIMIT TOP 100/TOP 20 GAMES ON MOBILE */
+    .top-games-grid .game-card:nth-child(n+7),
+    .games-grid .game-card:nth-child(n+7) {
+        display: none !important;
+    }
+
+    /* Better card spacing */
+    .game-card,
+    .company-card,
+    .event-card,
+    .platform-card {
+        margin-bottom: 1.5rem !important;
     }
 }
 
@@ -81,23 +115,38 @@
 
     section {
         padding: 1.5rem 1rem !important;
+        margin-bottom: 1.5rem !important;
     }
 
-    /* Grids */
+    /* Grids - 2 columns max */
     .games-grid,
     .companies-grid,
     .events-grid,
-    .platforms-grid {
+    .platforms-grid,
+    .top-games-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 1rem !important;
     }
 
-    /* Cards */
+    /* Cards with better spacing */
     .game-card,
     .company-card,
     .event-card,
     .platform-card {
-        padding: 1rem !important;
+        padding: 0.75rem !important;
+        margin-bottom: 0;
+    }
+
+    /* Card images smaller */
+    .game-card img,
+    .company-card img {
+        max-height: 150px;
+        object-fit: cover;
+    }
+
+    /* Featured carousel smaller */
+    .featured-card {
+        min-width: 200px !important;
     }
 
     /* Footer */
@@ -122,8 +171,15 @@
     .games-grid,
     .companies-grid,
     .events-grid,
-    .platforms-grid {
+    .platforms-grid,
+    .top-games-grid {
         grid-template-columns: 1fr !important;
+    }
+
+    /* Show even fewer games on small mobile */
+    .top-games-grid .game-card:nth-child(n+5),
+    .games-grid .game-card:nth-child(n+5) {
+        display: none !important;
     }
 
     .logo {
@@ -145,6 +201,13 @@
         padding: 0.6rem 1rem !important;
         font-size: 0.9rem !important;
     }
+
+    /* Cards take full width */
+    .game-card,
+    .company-card,
+    .event-card {
+        width: 100% !important;
+    }
 }
 
 /* Fix for carousel on mobile */
@@ -165,5 +228,19 @@
     .carousel-thumb {
         width: 60px !important;
         height: 60px !important;
+    }
+}
+
+/* Fix modal on mobile */
+@media (max-width: 768px) {
+
+    .modal-content,
+    .game-modal-content,
+    .company-modal-content,
+    .event-modal-content {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 1rem auto !important;
+        padding: 1rem !important;
     }
 }
