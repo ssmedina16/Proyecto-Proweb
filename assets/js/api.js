@@ -1,8 +1,8 @@
 // IGDB API Integration
 const IGDB_API = {
     baseURL: '/api/igdb',
-    clientId: '93jt6mqjgthmkmzvajqm0rw92opfug',
-    clientSecret: 'f9hdul6c5921dbdgbo4l93xy53i9ok',
+    clientId: 'lexhrfxh29xqjzpmaozu35s0iocp4y',
+    clientSecret: 'vur4q2yrs1foxr51ibn5iuocs24sgn',
     tokenEndpoint: '/api/twitch/oauth2/token',
 
 
@@ -85,6 +85,27 @@ const IGDB_API = {
             where rating_count > 10 & rating > 70;
             sort rating desc;
             limit ${limit};
+        `;
+
+        const data = await this.apiRequest('games', query);
+        if (data) {
+            this.cache.data.set(cacheKey, data);
+        }
+        return data;
+    },
+
+    // Get Top 100 games (highest rated with significant rating count)
+    async getTop100Games() {
+        const cacheKey = 'top_100_games';
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const query = `
+            fields name, cover.url, rating, summary, first_release_date, platforms.name, genres.name;
+            where rating_count > 50 & rating > 75;
+            sort rating desc;
+            limit 100;
         `;
 
         const data = await this.apiRequest('games', query);
@@ -203,6 +224,183 @@ const IGDB_API = {
         return data;
     },
 
+    // Get detailed company info by ID
+    async getCompanyDetails(companyId) {
+        const cacheKey = `company_detail_${companyId}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const query = `
+            fields name, description, logo.url, start_date, country, 
+                   websites.url, websites.category,
+                   developed.name, developed.rating, developed.cover.url, developed.platforms.name, developed.genres.name, developed.category,
+                   published.name, published.rating, published.cover.url, published.platforms.name, published.genres.name, published.category;
+            where id = ${companyId};
+        `;
+
+        const data = await this.apiRequest('companies', query);
+        if (data && data.length > 0) {
+            this.cache.data.set(cacheKey, data[0]);
+            return data[0];
+        }
+        return null;
+    },
+
+    // Get events list
+    async getEvents(limit = 10) {
+        const cacheKey = `events_${limit}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const query = `
+            fields name, description, start_time, end_time, 
+                   event_logo.url, event_networks.url;
+            where start_time != null;
+            sort start_time desc;
+            limit ${limit};
+        `;
+
+        const data = await this.apiRequest('events', query);
+        if (data) {
+            this.cache.data.set(cacheKey, data);
+        }
+        return data;
+    },
+
+    // Get detailed event info by ID
+    async getEventDetails(eventId) {
+        const cacheKey = `event_detail_${eventId}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const query = `
+            fields name, description, start_time, end_time,
+                   event_logo.url, event_networks.url, event_networks.network.name,
+                   videos.video_id, videos.name,
+                   games.name, games.cover.url, games.rating;
+            where id = ${eventId};
+        `;
+
+        const data = await this.apiRequest('events', query);
+        if (data && data.length > 0) {
+            this.cache.data.set(cacheKey, data[0]);
+            return data[0];
+        }
+        return null;
+    },
+
+    // Global search across all entities
+    async globalSearch(query) {
+        if (!query || query.length < 2) {
+            return { games: [], companies: [], platforms: [], events: [] };
+        }
+
+        const searchTerm = query.toLowerCase();
+
+        try {
+            // Search in parallel across all endpoints
+            const [gamesData, companiesData, platformsData, eventsData] = await Promise.all([
+                this.searchGames(searchTerm),
+                this.searchCompanies(searchTerm),
+                this.searchPlatforms(searchTerm),
+                this.searchEvents(searchTerm)
+            ]);
+
+            return {
+                games: gamesData || [],
+                companies: companiesData || [],
+                platforms: platformsData || [],
+                events: eventsData || []
+            };
+        } catch (error) {
+            console.error('Global search error:', error);
+            return { games: [], companies: [], platforms: [], events: [] };
+        }
+    },
+
+    // Search games by name
+    async searchGames(query) {
+        const cacheKey = `search_games_${query}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const apiQuery = `
+            search "${query}";
+            fields name, cover.url, rating, first_release_date;
+            limit 5;
+        `;
+
+        const data = await this.apiRequest('games', apiQuery);
+        if (data) {
+            this.cache.data.set(cacheKey, data);
+        }
+        return data || [];
+    },
+
+    // Search companies by name
+    async searchCompanies(query) {
+        const cacheKey = `search_companies_${query}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const apiQuery = `
+            search "${query}";
+            fields name, logo.url, country;
+            limit 5;
+        `;
+
+        const data = await this.apiRequest('companies', apiQuery);
+        if (data) {
+            this.cache.data.set(cacheKey, data);
+        }
+        return data || [];
+    },
+
+    // Search platforms by name
+    async searchPlatforms(query) {
+        const cacheKey = `search_platforms_${query}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const apiQuery = `
+            search "${query}";
+            fields name, platform_logo.url;
+            limit 5;
+        `;
+
+        const data = await this.apiRequest('platforms', apiQuery);
+        if (data) {
+            this.cache.data.set(cacheKey, data);
+        }
+        return data || [];
+    },
+
+    // Search events by name
+    async searchEvents(query) {
+        const cacheKey = `search_events_${query}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        const apiQuery = `
+            search "${query}";
+            fields name, start_time, end_time;
+            limit 5;
+        `;
+
+        const data = await this.apiRequest('events', apiQuery);
+        if (data) {
+            this.cache.data.set(cacheKey, data);
+        }
+        return data || [];
+    },
+
     // Get games with pagination and detailed info
     async getGames(limit = 20, offset = 0) {
         const cacheKey = `games_${limit}_${offset}`;
@@ -239,7 +437,12 @@ const IGDB_API = {
                    franchises.name, age_ratings.rating, age_ratings.category,
                    language_supports.language.name,
                    involved_companies.company.name, involved_companies.developer,
-                   release_dates.platform.name, release_dates.date;
+                   release_dates.platform.name, release_dates.date,
+                   collection.name,
+                   websites.url, websites.category,
+                   videos.video_id, videos.name,
+                   screenshots.url,
+                   similar_games.name, similar_games.cover.url, similar_games.rating;
             where id = ${gameId};
         `;
 
@@ -347,6 +550,69 @@ const IGDB_API = {
         if (!timestamp) return 'TBA';
         const date = new Date(timestamp * 1000);
         return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+    },
+
+    // Global search across games, companies, platforms, and events
+    async searchAll(query, limit = 10) {
+        if (!query || query.trim().length < 2) {
+            return { games: [], companies: [], platforms: [], events: [] };
+        }
+
+        const cacheKey = `search_${query}_${limit}`;
+        if (this.cache.data.has(cacheKey)) {
+            return this.cache.data.get(cacheKey);
+        }
+
+        try {
+            const results = {
+                games: [],
+                companies: [],
+                platforms: [],
+                events: []
+            };
+
+            // Search games
+            const gamesQuery = `
+                fields name, cover.url, rating, summary, first_release_date;
+                search "${query}";
+                limit ${limit};
+            `;
+            const gamesResults = await this.apiRequest('games', gamesQuery);
+            if (gamesResults) results.games = gamesResults;
+
+            // Search companies
+            const companiesQuery = `
+                fields name, logo.url, description, country;
+                search "${query}";
+                limit ${limit};
+            `;
+            const companiesResults = await this.apiRequest('companies', companiesQuery);
+            if (companiesResults) results.companies = companiesResults;
+
+            // Search platforms
+            const platformsQuery = `
+                fields name, platform_logo.url, summary;
+                search "${query}";
+                limit ${limit};
+            `;
+            const platformsResults = await this.apiRequest('platforms', platformsQuery);
+            if (platformsResults) results.platforms = platformsResults;
+
+            // Search events
+            const eventsQuery = `
+                fields name, description, start_time, event_logo.url;
+                search "${query}";
+                limit ${limit};
+            `;
+            const eventsResults = await this.apiRequest('events', eventsQuery);
+            if (eventsResults) results.events = eventsResults;
+
+            this.cache.data.set(cacheKey, results);
+            return results;
+        } catch (error) {
+            console.error('Search error:', error);
+            return { games: [], companies: [], platforms: [], events: [] };
+        }
     }
 
 };

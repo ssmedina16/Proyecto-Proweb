@@ -1,6 +1,10 @@
-// Companies Page - Sample Data
+// Companies Page - IGDB API Integration
 
-const companiesData = [
+let companiesData = [];
+let isLoadingFromAPI = false;
+
+// Fallback mock data (used if API fails)
+const fallbackCompaniesData = [
     {
         id: 1,
         name: "Nintendo",
@@ -8,122 +12,181 @@ const companiesData = [
         type: "Desarrolladora y Publisher",
         founded: "23 de septiembre de 1889",
         country: "Japón",
-        description: "Nintendo Co., Ltd. es una empresa japonesa de videojuegos y juguetes. Es una de las compañías de videojuegos más importantes y reconocidas del mundo. Nintendo ha creado algunas de las franquicias más exitosas e icónicas de la historia de los videojuegos, incluyendo Mario, The Legend of Zelda, Pokémon y muchas más.",
+        description: "Nintendo Co., Ltd. es una empresa japonesa de videojuegos y juguetes. Es una de las compañías de videojuegos más importantes y reconocidas del mundo.",
         website: "https://www.nintendo.com",
         games: [
             { name: "The Legend of Zelda", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=200&fit=crop" },
-            { name: "Super Mario Odyssey", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&h=200&fit=crop" },
-            { name: "Animal Crossing", image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=150&h=200&fit=crop" },
-            { name: "Splatoon 3", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=150&h=200&fit=crop" },
-            { name: "Pokémon", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=150&h=200&fit=crop" },
-            { name: "Mario Kart 8", image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=150&h=200&fit=crop" }
-        ]
-    },
-    {
-        id: 2,
-        name: "Sony Interactive Entertainment",
-        logo: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=200&h=200&fit=crop",
-        type: "Desarrolladora y Publisher",
-        founded: "16 de noviembre de 1993",
-        country: "Japón",
-        description: "Sony Interactive Entertainment (SIE) es una subsidiaria de Sony Corporation que se dedica al negocio de los videojuegos. Es la empresa responsable de la marca PlayStation y desarrolla tanto hardware (consolas) como software (videojuegos). SIE es conocida por franquicias exclusivas como God of War, The Last of Us, Uncharted y Spider-Man.",
-        website: "https://www.playstation.com",
-        games: [
-            { name: "God of War", image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=150&h=200&fit=crop" },
-            { name: "The Last of Us", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=150&h=200&fit=crop" },
-            { name: "Spider-Man", image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=150&h=200&fit=crop" },
-            { name: "Horizon", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=150&h=200&fit=crop" },
-            { name: "Uncharted", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=200&fit=crop" },
-            { name: "Ratchet & Clank", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&h=200&fit=crop" }
-        ]
-    },
-    {
-        id: 3,
-        name: "Microsoft (Xbox Game Studios)",
-        logo: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=200&h=200&fit=crop",
-        type: "Desarrolladora y Publisher",
-        founded: "21 de marzo de 2000",
-        country: "Estados Unidos",
-        description: "Xbox Game Studios (anteriormente Microsoft Studios) es la división de desarrollo y publicación de videojuegos de Microsoft. Es responsable de desarrollar y publicar juegos para las consolas Xbox y PC. Entre sus franquicias más populares están Halo, Forza, Gears of War y Age of Empires.",
-        website: "https://www.xbox.com",
-        games: [
-            { name: "Halo Infinite", image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=150&h=200&fit=crop" },
-            { name: "Forza Horizon", image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=150&h=200&fit=crop" },
-            { name: "Gears of War", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=200&fit=crop" },
-            { name: "Minecraft", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=150&h=200&fit=crop" },
-            { name: "Sea of Thieves", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=150&h=200&fit=crop" },
-            { name: "Starfield", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&h=200&fit=crop" }
-        ]
-    },
-    {
-        id: 4,
-        name: "CD Projekt Red",
-        logo: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=200&h=200&fit=crop",
-        type: "Desarrolladora",
-        founded: "2002",
-        country: "Polonia",
-        description: "CD Projekt Red es un desarrollador de videojuegos polaco conocido por crear experiencias de world RPG profundas e inmersivas. Son los creadores de la aclamada serie The Witcher y Cyberpunk 2077. La compañía es conocida por su atención al detalle, narrativas complejas y contenido gratuito post-lanzamiento.",
-        website: "https://www.cdprojektred.com",
-        games: [
-            { name: "The Witcher 3", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=150&h=200&fit=crop" },
-            { name: "Cyberpunk 2077", image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=150&h=200&fit=crop" },
-            { name: "The Witcher 2", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=200&fit=crop" },
-            { name: "The Witcher", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=150&h=200&fit=crop" }
-        ]
-    },
-    {
-        id: 5,
-        name: "FromSoftware",
-        logo: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=200&h=200&fit=crop",
-        type: "Desarrolladora",
-        founded: "Noviembre de 1986",
-        country: "Japón",
-        description: "FromSoftware es un estudio japonés de desarrollo de videojuegos conocido por crear algunos de los juegos más desafiantes y atmosféricos de la industria. Son famosos por la serie Dark Souls, Bloodborne, Sekiro y Elden Ring. Sus juegos son reconocidos por su alta dificultad, diseño de niveles intrincado y narrativa ambiental.",
-        website: "https://www.fromsoftware.jp",
-        games: [
-            { name: "Elden Ring", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=200&fit=crop" },
-            { name: "Dark Souls III", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=150&h=200&fit=crop" },
-            { name: "Bloodborne", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&h=200&fit=crop" },
-            { name: "Sekiro", image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=150&h=200&fit=crop" },
-            { name: "Dark Souls", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=150&h=200&fit=crop" },
-            { name: "Dark Souls II", image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=150&h=200&fit=crop" }
-        ]
-    },
-    {
-        id: 6,
-        name: "Rockstar Games",
-        logo: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&h=200&fit=crop",
-        type: "Desarrolladora y Publisher",
-        founded: "Diciembre de 1998",
-        country: "Estados Unidos",
-        description: "Rockstar Games es una desarrolladora y editora estadounidense conocida por crear algunos de los juegos de mundo abierto más exitosos y controvertidos de la historia. Son los creadores de Grand Theft Auto, Red Dead Redemption y Max Payne. Sus juegos son conocidos por sus mundos detallados, narrativas maduras y libertad de jugador.",
-        website: "https://www.rockstargames.com",
-        games: [
-            { name: "GTA V", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=150&h=200&fit=crop" },
-            { name: "Red Dead 2", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=150&h=200&fit=crop" },
-            { name: "GTA IV", image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=150&h=200&fit=crop" },
-            { name: "Red Dead Redemption", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&h=200&fit=crop" },
-            { name: "Max Payne 3", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=150&h=200&fit=crop" },
-            { name: "LA Noire", image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=150&h=200&fit=crop" }
+            { name: "Super Mario Odyssey", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=150&h=200&fit=crop" }
         ]
     }
 ];
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    loadCompanyCards();
+document.addEventListener('DOMContentLoaded', async () => {
+    showLoadingState();
+    await loadCompaniesFromAPI();
     setupModalHandlers();
+    setupSortingAndFiltering();
 });
 
-// Load company cards
-function loadCompanyCards() {
+// Setup sorting and filtering
+function setupSortingAndFiltering() {
+    const sortSelect = document.getElementById('companies-sort');
+    const filterSelect = document.getElementById('companies-filter');
+
+    if (!sortSelect || !filterSelect) return;
+
+    // Populate country filter options
+    populateCountryFilter();
+
+    // Add event listeners
+    sortSelect.addEventListener('change', () => {
+        applyFiltersAndSort();
+    });
+
+    filterSelect.addEventListener('change', () => {
+        applyFiltersAndSort();
+    });
+
+    // Initial display with current settings
+    applyFiltersAndSort();
+}
+
+// Populate country filter dynamically
+function populateCountryFilter() {
+    const filterSelect = document.getElementById('companies-filter');
+    if (!filterSelect || companiesData.length === 0) return;
+
+    // Get unique countries
+    const countries = [...new Set(companiesData.map(c => c.country).filter(Boolean))];
+    countries.sort();
+
+    // Clear except "Todos"
+    filterSelect.innerHTML = '<option value="all">Todos los países</option>';
+
+    // Add country options
+    countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        filterSelect.appendChild(option);
+    });
+}
+
+// Apply filters and sorting
+function applyFiltersAndSort() {
+    const sortSelect = document.getElementById('companies-sort');
+    const filterSelect = document.getElementById('companies-filter');
+
+    if (!sortSelect || !filterSelect) return;
+
+    let filteredData = [...companiesData];
+
+    // Apply country filter
+    const selectedCountry = filterSelect.value;
+    if (selectedCountry !== 'all') {
+        filteredData = filteredData.filter(c => c.country === selectedCountry);
+        filterSelect.classList.add('has-filter');
+    } else {
+        filterSelect.classList.remove('has-filter');
+    }
+
+    // Apply sorting
+    const sortBy = sortSelect.value;
+    if (sortBy === 'az') {
+        filteredData.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'za') {
+        filteredData.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    // Update results count
+    const countElement = document.getElementById('companies-count');
+    if (countElement) {
+        countElement.textContent = `${filteredData.length} compañía${filteredData.length !== 1 ? 's' : ''}`;
+    }
+
+    // Display results
+    displayCompanies(filteredData);
+}
+
+// Display companies (replaces loadCompanyCards)
+function displayCompanies(companies) {
     const grid = document.getElementById('companies-grid');
+    if (!grid) return;
+
     grid.innerHTML = '';
 
-    companiesData.forEach(company => {
+    if (companies.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">😕 No se encontraron compañías con estos filtros</div>';
+        return;
+    }
+
+    companies.forEach(company => {
         const card = createCompanyCard(company);
         grid.appendChild(card);
     });
+}
+
+
+// Show loading state
+function showLoadingState() {
+    const grid = document.getElementById('companies-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;"><div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>Cargando compañías...</div>';
+}
+
+// Load companies from IGDB API
+async function loadCompaniesFromAPI() {
+    isLoadingFromAPI = true;
+
+    try {
+        console.log('🏢 Loading companies from IGDB API...');
+        const apiCompanies = await IGDB_API.getCompanies(12);
+
+        if (apiCompanies && apiCompanies.length > 0) {
+            console.log(`✅ Loaded ${apiCompanies.length} companies from API`);
+
+            // Convert API format to our format
+            companiesData = apiCompanies.map(company => ({
+                id: company.id,
+                name: company.name,
+                logo: company.logo && company.logo.url
+                    ? IGDB_API.formatImageUrl(company.logo.url, 'logo_med')
+                    : 'https://via.placeholder.com/200?text=Company',
+                type: "Desarrolladora",
+                founded: company.start_date ? new Date(company.start_date * 1000).getFullYear().toString() : 'N/A',
+                country: company.country || 'N/A',
+                description: company.description || 'No description available.',
+                website: company.websites && company.websites.length > 0 ? company.websites[0].url : null,
+                games: [] // Will be loaded on demand
+            }));
+
+            loadCompanyCards();
+        } else {
+            console.warn('⚠️ No companies from API, using fallback data');
+            companiesData = fallbackCompaniesData;
+            loadCompanyCards();
+        }
+    } catch (error) {
+        console.error('❌ Error loading companies from API:', error);
+        console.log('Using fallback data...');
+        companiesData = fallbackCompaniesData;
+        loadCompanyCards();
+    } finally {
+        isLoadingFromAPI = false;
+    }
+}
+
+// Load company cards (now calls displayCompanies through filters)
+function loadCompanyCards() {
+    // Now handled by applyFiltersAndSort which includes country filter population
+    if (typeof setupSortingAndFiltering === 'function') {
+        setupSortingAndFiltering();
+    } else {
+        // Fallback if setup hasn't run yet
+        displayCompanies(companiesData);
+    }
 }
 
 // Create company card
@@ -143,7 +206,7 @@ function createCompanyCard(company) {
 }
 
 // Show company modal
-function showCompanyModal(company) {
+async function showCompanyModal(company) {
     const modal = document.getElementById('company-modal');
 
     // Fill modal data
@@ -154,8 +217,27 @@ function showCompanyModal(company) {
     document.getElementById('modal-type').textContent = company.type;
     document.getElementById('modal-description').textContent = company.description;
 
+    // Show loading for games
+    const gamesContainer = document.getElementById('modal-games');
+    gamesContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #aaa;">Cargando juegos...</div>';
+
+    // Load company games from API if not cached
+    if ((!company.games || company.games.length === 0) && isLoadingFromAPI) {
+        try {
+            const companyGames = await IGDB_API.getGamesByCompany(company.id, 10);
+            if (companyGames && companyGames.length > 0) {
+                company.games = companyGames.map(game => ({
+                    name: game.name,
+                    image: game.cover ? IGDB_API.formatImageUrl(game.cover.url, 'cover_big') : 'https://via.placeholder.com/150x200?text=Game'
+                }));
+            }
+        } catch (error) {
+            console.error('Error loading company games:', error);
+        }
+    }
+
     // Fill games
-    fillGames(company.games);
+    fillGames(company.games || []);
 
     // Website link
     if (company.website) {

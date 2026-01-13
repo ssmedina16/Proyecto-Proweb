@@ -119,6 +119,9 @@ function populateModal(game) {
     setText('modal-description', game.summary || 'No description available.');
     setText('modal-story', game.storyline || game.summary || 'No story available.');
 
+    // Countdown timer for unreleased games
+    checkAndSetupCountdown(game.first_release_date);
+
     // Company
     if (game.involved_companies && game.involved_companies.length > 0) {
         const developer = game.involved_companies.find(ic => ic.developer);
@@ -128,6 +131,14 @@ function populateModal(game) {
         setText('modal-company', companyName);
     } else {
         setText('modal-company', 'Unknown');
+    }
+
+    // Series/Collection
+    if (game.collection && game.collection.name) {
+        setText('modal-series', game.collection.name);
+        showSection('modal-series-section');
+    } else {
+        hideSection('modal-series-section');
     }
 
     // Arrays
@@ -155,6 +166,18 @@ function populateModal(game) {
     } else {
         fillTags('modal-languages', []);
     }
+
+    // Websites/Links
+    populateWebsites(game.websites);
+
+    // Videos
+    populateVideos(game.videos);
+
+    // Screenshots
+    populateScreenshots(game.screenshots);
+
+    // Similar Games
+    populateSimilarGames(game.similar_games);
 
     // Platform releases
     if (game.release_dates && game.release_dates.length > 0) {
@@ -266,4 +289,218 @@ function setModalLoading(isLoading) {
 function showError(message) {
     console.error(message);
     // Could add a toast notification here
+}
+
+// Show/hide section helpers
+function showSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) section.style.display = 'block';
+}
+
+function hideSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) section.style.display = 'none';
+}
+
+// Countdown timer for unreleased games
+let countdownInterval = null;
+
+function checkAndSetupCountdown(releaseTimestamp) {
+    const countdownContainer = document.getElementById('modal-countdown');
+    const section = document.getElementById('countdown-section');
+
+    if (!releaseTimestamp) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    const releaseDate = new Date(releaseTimestamp * 1000);
+    const now = new Date();
+
+    if (releaseDate > now) {
+        // Game not released yet - show countdown
+        if (section) section.style.display = 'block';
+        startCountdown(releaseTimestamp);
+    } else {
+        if (section) section.style.display = 'none';
+        stopCountdown();
+    }
+}
+
+function startCountdown(releaseTimestamp) {
+    const countdownElement = document.getElementById('modal-countdown');
+    if (!countdownElement) return;
+
+    // Clear any existing countdown
+    stopCountdown();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const releaseTime = releaseTimestamp * 1000;
+        const distance = releaseTime - now;
+
+        if (distance < 0) {
+            countdownElement.innerHTML = '¡Ya disponible!';
+            stopCountdown();
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML = `
+            <span class="countdown-number">${days}</span> días 
+            <span class="countdown-number">${hours}</span> hrs 
+            <span class="countdown-number">${minutes}</span> min 
+            <span class="countdown-number">${seconds}</span> seg
+        `;
+    }
+
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+function stopCountdown() {
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+}
+
+// Populate websites/links
+function populateWebsites(websites) {
+    const container = document.getElementById('modal-websites');
+    const section = document.getElementById('websites-section');
+
+    if (!websites || websites.length === 0) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    if (container && section) {
+        container.innerHTML = '';
+
+        const websiteCategories = {
+            1: { name: 'Oficial', icon: '🌐' },
+            2: { name: 'Wikia', icon: '📖' },
+            3: { name: 'Wikipedia', icon: '📚' },
+            4: { name: 'Facebook', icon: '👥' },
+            5: { name: 'Twitter', icon: '🐦' },
+            6: { name: 'Twitch', icon: '🎮' },
+            8: { name: 'Instagram', icon: '📷' },
+            9: { name: 'YouTube', icon: '▶️' },
+            13: { name: 'Steam', icon: '🎯' },
+            14: { name: 'Reddit', icon: '💬' },
+            16: { name: 'Epic Games', icon: '🎮' },
+            17: { name: 'GOG', icon: '🎮' },
+            18: { name: 'Discord', icon: '💬' }
+        };
+
+        websites.forEach(website => {
+            const category = websiteCategories[website.category] || { name: 'Link', icon: '🔗' };
+            const link = document.createElement('a');
+            link.href = website.url;
+            link.target = '_blank';
+            link.className = 'website-link';
+            link.innerHTML = `${category.icon} ${category.name}`;
+            container.appendChild(link);
+        });
+
+        section.style.display = 'block';
+    }
+}
+
+// Populate videos
+function populateVideos(videos) {
+    const container = document.getElementById('modal-videos');
+    const section = document.getElementById('videos-section');
+
+    if (!videos || videos.length === 0) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    if (container && section) {
+        container.innerHTML = '';
+
+        videos.slice(0, 3).forEach(video => {
+            const videoFrame = document.createElement('div');
+            videoFrame.className = 'video-frame';
+            videoFrame.innerHTML = `
+                <iframe 
+                    width="100%" 
+                    height="200" 
+                    src="https://www.youtube.com/embed/${video.video_id}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                ${video.name ? `<p class="video-title">${video.name}</p>` : ''}
+            `;
+            container.appendChild(videoFrame);
+        });
+
+        section.style.display = 'block';
+    }
+}
+
+// Populate screenshots
+function populateScreenshots(screenshots) {
+    const container = document.getElementById('modal-screenshots');
+    const section = document.getElementById('screenshots-section');
+
+    if (!screenshots || screenshots.length === 0) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    if (container && section) {
+        container.innerHTML = '';
+
+        screenshots.forEach(screenshot => {
+            const img = document.createElement('img');
+            img.src = IGDB_API.formatImageUrl(screenshot.url, 'screenshot_big');
+            img.className = 'screenshot-image';
+            img.alt = 'Game Screenshot';
+            img.onclick = () => window.open(IGDB_API.formatImageUrl(screenshot.url, 'screenshot_huge'), '_blank');
+            container.appendChild(img);
+        });
+
+        section.style.display = 'block';
+    }
+}
+
+// Populate similar games
+function populateSimilarGames(similarGames) {
+    const container = document.getElementById('modal-similar-games');
+    const section = document.getElementById('similar-games-section');
+
+    if (!similarGames || similarGames.length === 0) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    if (container && section) {
+        container.innerHTML = '';
+
+        similarGames.slice(0, 6).forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'similar-game-card';
+            const coverUrl = game.cover && game.cover.url
+                ? IGDB_API.formatImageUrl(game.cover.url, 'cover_small')
+                : 'https://via.placeholder.com/90x120?text=No+Image';
+
+            card.innerHTML = `
+                <img src="${coverUrl}" alt="${game.name}">
+                <div class="similar-game-name">${game.name}</div>
+                ${game.rating ? `<div class="similar-game-rating">⭐ ${Math.round(game.rating)}</div>` : ''}
+            `;
+            card.onclick = () => showGameModal(game.id);
+            container.appendChild(card);
+        });
+
+        section.style.display = 'block';
+    }
 }

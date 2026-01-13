@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         await loadEvents();
         setupModalHandlers();
+        setupSortingAndFiltering();
         setInterval(updateAllCountdowns, 1000);
     } catch (error) {
         console.error('Error loading events:', error);
@@ -18,6 +19,94 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadFallbackEvents();
     }
 });
+
+// Setup sorting and filtering
+function setupSortingAndFiltering() {
+    const sortSelect = document.getElementById('events-sort');
+    const filterSelect = document.getElementById('events-filter');
+
+    if (!sortSelect || !filterSelect) return;
+
+    // Add event listeners
+    sortSelect.addEventListener('change', () => {
+        applyFiltersAndSort();
+    });
+
+    filterSelect.addEventListener('change', () => {
+        applyFiltersAndSort();
+    });
+
+    // Initial display
+    applyFiltersAndSort();
+}
+
+// Apply filters and sorting
+function applyFiltersAndSort() {
+    const sortSelect = document.getElementById('events-sort');
+    const filterSelect = document.getElementById('events-filter');
+
+    if (!sortSelect || !filterSelect) return;
+
+    let filteredData = [...eventsData];
+    const now = new Date();
+
+    // Apply status filter
+    const filterBy = filterSelect.value;
+    if (filterBy !== 'all') {
+        filteredData = filteredData.filter(event => {
+            const status = getEventStatus(event, now);
+            return status === filterBy;
+        });
+        filterSelect.classList.add('has-filter');
+    } else {
+        filterSelect.classList.remove('has-filter');
+    }
+
+    // Apply sorting
+    const sortBy = sortSelect.value;
+    if (sortBy === 'upcoming') {
+        // Upcoming first (earliest dates first)
+        filteredData.sort((a, b) => a.startDate - b.startDate);
+    } else if (sortBy === 'past') {
+        // Past first (latest dates first)
+        filteredData.sort((a, b) => b.startDate - a.startDate);
+    }
+
+    // Update results count
+    const countElement = document.getElementById('events-count');
+    if (countElement) {
+        countElement.textContent = `${filteredData.length} evento${filteredData.length !== 1 ? 's' : ''}`;
+    }
+
+    // Display results
+    displayFilteredEvents(filteredData);
+}
+
+// Get event status helper
+function getEventStatus(event, now = new Date()) {
+    if (event.startDate > now) return 'upcoming';
+    if (event.endDate < now) return 'past';
+    return 'ongoing';
+}
+
+// Display filtered events
+function displayFilteredEvents(events) {
+    const grid = document.getElementById('events-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    if (events.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">😕 No se encontraron eventos con estos filtros</div>';
+        return;
+    }
+
+    events.forEach(event => {
+        const card = createEventCard(event);
+        grid.appendChild(card);
+    });
+}
+
 
 // Load events from API
 async function loadEvents() {
@@ -82,15 +171,13 @@ function loadFallbackEvents() {
 // (displayEvents, getEventStatus, createCountdown, updateAllCountdowns, etc.)
 
 function displayEvents() {
-    const grid = document.getElementById('events-grid');
-    if (!grid) return;
-
-    grid.innerHTML = '';
-
-    eventsData.forEach(event => {
-        const card = createEventCard(event);
-        grid.appendChild(card);
-    });
+    // Now handled by applyFiltersAndSort
+    if (typeof setupSortingAndFiltering === 'function') {
+        setupSortingAndFiltering();
+    } else {
+        // Fallback
+        displayFilteredEvents(eventsData);
+    }
 }
 
 function createEventCard(event) {

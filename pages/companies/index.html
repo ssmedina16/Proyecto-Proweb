@@ -8,6 +8,7 @@
     <title>Compañías</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="../../assets/css/companies.css">
+    <link rel="stylesheet" href="../../assets/css/listing-controls.css">
     <link rel="stylesheet" href="../../assets/css/gaming-effects.css">
     <link rel="stylesheet" href="../../assets/css/sdg-game.css">
 </head>
@@ -34,6 +35,27 @@
     <main class="companies-main">
         <h1 class="companies-title">Desarrolladoras y Publishers</h1>
         <p class="companies-subtitle">Descubre las compañías más influyentes de la industria</p>
+
+        <!-- Sorting and Filtering Controls -->
+        <div class="listing-controls">
+            <div class="control-group">
+                <label for="companies-sort">Ordenar por:</label>
+                <select id="companies-sort" class="control-select">
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="companies-filter">Filtrar por país:</label>
+                <select id="companies-filter" class="control-select">
+                    <option value="all">Todos los países</option>
+                    <!-- Countries will be populated dynamically -->
+                </select>
+            </div>
+
+            <span class="results-count" id="companies-count">Cargando...</span>
+        </div>
 
         <!-- Companies Grid -->
         <div class="companies-grid" id="companies-grid">
@@ -148,7 +170,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 8BIT LORE. Todos los derechos reservados.</p>
+            <p>&copy; 2026 8BIT LORE. Todos los derechos reservados.</p>
         </div>
     </footer>
 

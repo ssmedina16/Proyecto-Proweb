@@ -281,3 +281,139 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Series/Collection */
+.series-name {
+    font-size: 1.2rem;
+    color: #8b5cf6;
+    font-weight: 600;
+}
+
+/* Countdown Timer */
+.countdown-display {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff6b81;
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 107, 129, 0.1);
+    border-radius: 10px;
+}
+
+.countdown-number {
+    background: #ff6b81;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    margin: 0 5px;
+    display: inline-block;
+}
+
+/* Websites/Links */
+.websites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.website-link {
+    background: linear-gradient(135deg, #8b5cf6 0%, #d8b4fe 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.website-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+}
+
+/* Videos */
+.videos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.video-frame {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.video-frame iframe {
+    width: 100%;
+    height: 250px;
+    border: none;
+}
+
+.video-title {
+    margin: 10px 0 0 0;
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Screenshots Gallery */
+.screenshots-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.screenshot-image {
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.screenshot-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 107, 129, 0.4);
+}
+
+/* Similar Games */
+.similar-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+}
+
+.similar-game-card {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+}
+
+.similar-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.similar-game-card img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.similar-game-name {
+    font-size: 0.9rem;
+    margin: 10px 0 5px 0;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.similar-game-rating {
+    color: #fbbf24;
+    font-size: 0.85rem;
+    font-weight: 600;
+}

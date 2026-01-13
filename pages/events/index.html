@@ -8,6 +8,7 @@
     <title>Eventos</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="../../assets/css/events.css">
+    <link rel="stylesheet" href="../../assets/css/listing-controls.css">
     <link rel="stylesheet" href="../../assets/css/gaming-effects.css">
     <link rel="stylesheet" href="../../assets/css/sdg-game.css">
 </head>
@@ -34,6 +35,29 @@
     <main class="events-main">
         <h1 class="events-title">Eventos de Videojuegos</h1>
         <p class="events-subtitle">Descubre los eventos más importantes de la industria</p>
+
+        <!-- Sorting and Filtering Controls -->
+        <div class="listing-controls">
+            <div class="control-group">
+                <label for="events-sort">Ordenar por:</label>
+                <select id="events-sort" class="control-select">
+                    <option value="upcoming">Próximos primero</option>
+                    <option value="past">Pasados primero</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="events-filter">Estado:</label>
+                <select id="events-filter" class="control-select">
+                    <option value="all">Todos</option>
+                    <option value="upcoming">Próximos</option>
+                    <option value="ongoing">En curso</option>
+                    <option value="past">Pasados</option>
+                </select>
+            </div>
+
+            <span class="results-count" id="events-count">Cargando...</span>
+        </div>
 
         <!-- Events Grid -->
         <div class="events-grid" id="events-grid">
@@ -180,7 +204,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 8BIT LORE. Todos los derechos reservados.</p>
+            <p>&copy; 2026 8BIT LORE. Todos los derechos reservados.</p>
         </div>
     </footer>
 
