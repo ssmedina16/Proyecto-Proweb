@@ -74,7 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     tag.querySelector('.filter-tag-close').onclick = function () {
                         checkbox.checked = false;
                         tag.remove();
-                        checkTop100Status(); // Verificar estado al eliminar
+                        
+                        // Si estamos en la página de juegos, actualizar resultados
+                        if (typeof window.applyGameFilters === 'function') {
+                            window.applyGameFilters();
+                        }
+                        
+                        // Verificar el titulo tambien
+                        checkTop100Status();
                     };
 
                     activeFiltersContainer.appendChild(tag);
@@ -86,55 +93,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     // Función para verificar si Top 100 está activo y cambiar la vista de la pagina
     async function checkTop100Status() {
-        const activeFiltersContainer = document.getElementById('active-filters');
-        const gamesContainer = document.getElementById('games-container');
+        // FUNCTION INTENTIONALLY DISABLED TO PREVENT CONFLICTS WITH games.js
+        // The Top 100 logic is now handled in applyFilters within games.js
+        
+        // We only clean up the title if needed
         const pageTitle = document.querySelector('.page-title');
-
-        if (!activeFiltersContainer || !gamesContainer) return;
-
-        // Buscar si existe la etiqueta "Top 100"
-        const tags = activeFiltersContainer.querySelectorAll('.filter-tag');
+        const activeFiltersContainer = document.getElementById('active-filters');
+        
         let isTop100Active = false;
-
-        tags.forEach(tag => {
-            if (tag.textContent.includes('Top 100')) {
-                isTop100Active = true;
-            }
-        });
-
-        if (isTop100Active) {
-            // Cambiar a vista Top 100
-            gamesContainer.className = 'games-list-top100';
-            document.body.classList.add('top100-mode');
-            if (pageTitle) {
+        if (activeFiltersContainer) {
+            const tags = activeFiltersContainer.querySelectorAll('.filter-tag');
+            tags.forEach(tag => {
+                if (tag.textContent.includes('Top 100')) {
+                    isTop100Active = true;
+                }
+            });
+        }
+    
+        if (pageTitle) {
+            if (isTop100Active) {
                 pageTitle.textContent = 'Top 100';
-                pageTitle.classList.add('top100-active');
-            }
-
-            // Renderizar contenido Top 100 REAL desde API
-            await renderTop100GamesReal(gamesContainer);
-        } else {
-            // Restaurar vista Grid Normal
-            gamesContainer.className = 'games-grid';
-            document.body.classList.remove('top100-mode');
-            if (pageTitle) {
+            } else {
                 pageTitle.textContent = 'Juegos';
-                pageTitle.classList.remove('top100-active');
             }
-
-            // Restaurar contenido Grid (Simulado)
-            gamesContainer.innerHTML = `
-                <div class="game-card"><h3 class="game-name color-red">Nombre Juego 1</h3><div class="game-tags"><span class="tag"></span><span class="tag"></span></div></div>
-                <div class="game-card"><h3 class="game-name color-black">Nombre Juego 2</h3><div class="game-tags"><span class="tag"></span><span class="tag"></span></div></div>
-                <div class="game-card"><h3 class="game-name color-purple">Nombre Juego 3</h3><div class="game-tags"><span class="tag"></span><span class="tag"></span></div></div>
-                <div class="game-card"><h3 class="game-name color-black">Nombre Juego 4</h3><div class="game-tags"><span class="tag"></span><span class="tag"></span></div></div>
-                <div class="game-card"><h3 class="game-name color-red">Nombre Juego 5</h3><div class="game-tags"><span class="tag"></span><span class="tag"></span></div></div>
-                <div class="game-card"><h3 class="game-name color-purple">Nombre Juego 6</h3><div class="game-tags"><span class="tag"></span><span class="tag"></span></div></div>
-            `;
         }
     }
+
 
     // Función para renderizar Top 100 juegos REALES desde la API
     async function renderTop100GamesReal(container) {

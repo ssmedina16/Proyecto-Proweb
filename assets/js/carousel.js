@@ -22,7 +22,7 @@ const MainCarousel = {
 
         this.cacheElements();
 
-        if (this.mainImg && this.thumbs.length > 0) {
+        if (this.mainImg) {
             this.setupUI();
             this.attachEvents();
             this.startAutoPlay();

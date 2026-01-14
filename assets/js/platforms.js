@@ -21,7 +21,7 @@ const fallbackPlatformsData = [
         },
         versions: ["PS5 Standard", "PS5 Digital Edition"],
         officialLink: "https://www.playstation.com/es-es/ps5/",
-        images: ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=300&fit=crop"],
+        images: [],
         thumbnail: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=250&h=150&fit=crop",
         topGames: []
     },
@@ -40,7 +40,7 @@ const fallbackPlatformsData = [
         },
         versions: ["Xbox Series X", "Xbox Series S"],
         officialLink: "https://www.xbox.com/es-ES/consoles/xbox-series-x",
-        images: ["https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400&h=300&fit=crop"],
+        images: [],
         thumbnail: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=250&h=150&fit=crop",
         topGames: []
     },
@@ -59,7 +59,7 @@ const fallbackPlatformsData = [
         },
         versions: ["Switch Original", "Switch OLED", "Switch Lite"],
         officialLink: "https://www.nintendo.es/Nintendo-Switch/Nintendo-Switch-1148779.html",
-        images: ["https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400&h=300&fit=crop"],
+        images: [],
         thumbnail: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=250&h=150&fit=crop",
         topGames: []
     },
@@ -78,7 +78,7 @@ const fallbackPlatformsData = [
         },
         versions: ["Prearmadas", "Personalizadas", "Portátiles Gaming"],
         officialLink: "https://www.nvidia.com/es-es/geforce/",
-        images: ["https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400&h=300&fit=crop"],
+        images: [],
         thumbnail: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=250&h=150&fit=crop",
         topGames: []
     }
@@ -130,7 +130,7 @@ async function loadPlatformsFromAPI() {
                 },
                 versions: platform.versions || [],
                 officialLink: platform.websites && platform.websites.length > 0 ? platform.websites[0].url : null,
-                images: [platform.platform_logo && platform.platform_logo.url ? IGDB_API.formatImageUrl(platform.platform_logo.url, 'screenshot_big') : 'https://via.placeholder.com/400x300?text=Platform'],
+                images: [], // Removing duplicate image logic
                 thumbnail: platform.platform_logo && platform.platform_logo.url
                     ? IGDB_API.formatImageUrl(platform.platform_logo.url, 'thumb')
                     : 'https://via.placeholder.com/250x150?text=Platform',
@@ -247,7 +247,7 @@ async function showPlatform(index) {
     });
 
     // Load top games from API if not cached
-    if ((!platform.topGames || platform.topGames.length === 0) && isLoadingFromAPI) {
+    if (!platform.topGames || platform.topGames.length === 0) {
         const gamesGrid = document.getElementById('top-games-grid');
         gamesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #aaa;">Cargando juegos...</div>';
 

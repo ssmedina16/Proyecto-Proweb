@@ -402,23 +402,28 @@ const IGDB_API = {
     },
 
     // Get games with pagination and detailed info
-    async getGames(limit = 20, offset = 0) {
-        const cacheKey = `games_${limit}_${offset}`;
-        if (this.cache.data.has(cacheKey)) {
+    async getGames(limit = 20, offset = 0, whereClause = null) {
+        const cacheKey = `games_${limit}_${offset}_${whereClause ? whereClause.replace(/\s+/g, '') : 'default'}`;
+        // Skip cache if filtering (or implement better caching key)
+        if (!whereClause && this.cache.data.has(cacheKey)) {
             return this.cache.data.get(cacheKey);
         }
+
+        const defaultWhere = 'rating_count > 5';
+        const finalWhere = whereClause ? `${defaultWhere} & ${whereClause}` : defaultWhere;
 
         const query = `
             fields name, cover.url, rating, summary, first_release_date, 
                    genres.name, platforms.name, involved_companies.company.name;
-            where rating_count > 5;
+            where ${finalWhere};
             sort rating desc;
             limit ${limit};
             offset ${offset};
         `;
 
         const data = await this.apiRequest('games', query);
-        if (data) {
+        if (data && !whereClause) {
+            // Only cache default queries for now to avoid cache explosion
             this.cache.data.set(cacheKey, data);
         }
         return data;
@@ -463,7 +468,7 @@ const IGDB_API = {
 
         const query = `
             fields name, cover.url, rating, first_release_date;
-            where platforms = [${platformId}] & rating_count > 3;
+            where platforms = (${platformId}) & rating != null;
             sort rating desc;
             limit ${limit};
         `;

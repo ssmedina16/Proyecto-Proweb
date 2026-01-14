@@ -30,15 +30,21 @@
 
 .platform-logo-container {
     background: rgba(255, 255, 255, 0.05);
-    padding: 30px;
+    padding: 20px;
     border-radius: 20px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .platform-logo {
-    max-width: 300px;
-    max-height: 150px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 350px;
     object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
 }
 
 .platform-images-grid {

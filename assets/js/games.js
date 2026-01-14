@@ -1,14 +1,23 @@
 // Games Page - IGDB API Integration
 
 let currentPage = 0;
-const gamesPerPage = 20;
+const gamesPerPage = 9;
 let allGames = [];
+let currentWhereClause = null;
+let isTop100Mode = false;
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🎮 Loading games from IGDB API...');
 
+    // Clear placeholders immediately
+    const gamesGrid = document.querySelector('.games-grid');
+    if (gamesGrid) {
+        gamesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem;">Cargando juegos...</div>';
+    }
+
     try {
+        setupFilterHandlers();
         await loadGames();
         setupModalHandlers();
         setupLoadMoreButton();
@@ -21,59 +30,118 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Load games from API
 async function loadGames() {
     try {
-        const games = await IGDB_API.getGames(gamesPerPage, currentPage * gamesPerPage);
+        console.log(`Fetching games: Limit ${gamesPerPage}, Offset ${currentPage * gamesPerPage}`);
+        const games = await IGDB_API.getGames(gamesPerPage, currentPage * gamesPerPage, currentWhereClause);
 
         if (!games || games.length === 0) {
             console.warn('No games found');
-            return;
+            // If it's a filter search and no results, maybe clear the grid and show message
+            if (currentPage === 0) {
+                 const gamesGrid = document.getElementById('games-container');
+                 if (gamesGrid) gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron juegos con estos filtros.</p>';
+            }
+            return 0;
         }
 
         console.log(`📊 Loaded ${games.length} games`);
-        allGames = games;
+        
+        if (currentPage === 0) {
+            allGames = games;
+        } else {
+            allGames = [...allGames, ...games];
+        }
 
         displayGames(games);
+        return games.length;
     } catch (error) {
         console.error('Error loading games:', error);
+        return 0;
     }
 }
 
 // Display games in grid
 function displayGames(games) {
-    const gamesGrid = document.querySelector('.games-grid');
+    const gamesGrid = document.getElementById('games-container');
     if (!gamesGrid) return;
 
-    // Keep existing cards and update them
-    const gameCards = gamesGrid.querySelectorAll('.game-card');
+    // Reset container class depending on mode
+    if (isTop100Mode) {
+        gamesGrid.className = 'games-list-top100';
+    } else {
+        gamesGrid.className = 'games-grid';
+    }
+
+    // Clear existing content only if it's the first page
+    if (currentPage === 0) {
+        gamesGrid.innerHTML = '';
+    }
 
     games.forEach((game, index) => {
-        if (gameCards[index]) {
-            updateGameCard(gameCards[index], game);
+        // Special rendering for Top 100
+        if (isTop100Mode) {
+             const baseRank = index + 1 + (currentPage * gamesPerPage);
+             const releaseDate = game.first_release_date
+                ? new Date(game.first_release_date * 1000).toLocaleDateString('es-ES')
+                : 'Fecha desconocida';
+             const rating = game.rating ? `⭐ ${game.rating.toFixed(1)}` : '';
+             const coverUrl = game.cover && game.cover.url
+                ? IGDB_API.formatImageUrl(game.cover.url, 'cover_big')
+                : 'https://via.placeholder.com/200x300?text=No+Image';
+
+             const card = document.createElement('div');
+             card.className = 'top100-card';
+             card.dataset.gameId = game.id;
+             card.style.position = 'relative';
+             card.style.cursor = 'pointer';
+             card.onclick = () => showGameModal(game.id);
+
+             card.innerHTML = `
+                    <div class="top100-info">
+                        <div class="top100-rank" style="display: inline-block; background: rgba(255, 107, 129, 0.95); color: white; font-weight: bold; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; margin-right: 10px;">
+                            #${baseRank}
+                        </div>
+                        <span class="top100-date">${releaseDate}</span>
+                        <span class="top100-name">${game.name}</span>
+                        ${rating ? `<span class="top100-rating" style="color: #fbbf24; margin-left: 10px;">${rating}</span>` : ''}
+                    </div>
+                    <div class="top100-img-box" style="background-image: url('${coverUrl}'); background-size: cover; background-position: center;"></div>
+                    <div class="top100-arrow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+            `;
+            gamesGrid.appendChild(card);
+            return;
         }
+
+        // Standard Grid rendering
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.dataset.gameId = game.id;
+
+        // Image
+        let imageStyle = 'background-color: #eee;'; // Fallback
+        if (game.cover && game.cover.url) {
+            const imageUrl = IGDB_API.formatImageUrl(game.cover.url, 'cover_big');
+            imageStyle = `background-image: url('${imageUrl}');`;
+        }
+
+        card.innerHTML = `
+            <div class="game-card-image" style="${imageStyle}"></div>
+            <div class="game-card-content">
+                <h3 class="game-name">${game.name || 'Unknown Game'}</h3>
+            </div>
+        `;
+
+        // Add click handler
+        card.onclick = () => showGameModal(game.id);
+        
+        gamesGrid.appendChild(card);
     });
 }
 
-// Update a single game card
-function updateGameCard(card, game) {
-    // Update image if exists
-    const cardImg = card.querySelector('.game-card-img');
-    if (cardImg && game.cover && game.cover.url) {
-        const imageUrl = IGDB_API.formatImageUrl(game.cover.url, 'cover_big');
-        cardImg.style.backgroundImage = `url('${imageUrl}')`;
-    }
-
-    // Update name
-    const cardName = card.querySelector('.game-name, h3');
-    if (cardName) {
-        cardName.textContent = game.name || 'Unknown Game';
-    }
-
-    // Set game ID for modal
-    card.dataset.gameId = game.id;
-
-    // Add click handler
-    card.style.cursor = 'pointer';
-    card.onclick = () => showGameModal(game.id);
-}
 
 // Show game modal
 async function showGameModal(gameId) {
@@ -261,14 +329,19 @@ function setupLoadMoreButton() {
     const loadMoreBtn = document.getElementById('load-more-btn');
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', async () => {
+            console.log('Load More clicked. Next page:', currentPage + 1);
             currentPage++;
             loadMoreBtn.disabled = true;
             loadMoreBtn.textContent = 'Cargando...';
 
-            await loadGames();
+            const count = await loadGames();
 
             loadMoreBtn.disabled = false;
             loadMoreBtn.textContent = 'Cargar más';
+            
+            if (count === 0) {
+                loadMoreBtn.style.display = 'none'; // Hide if no more games
+            }
         });
     }
 }
@@ -504,5 +577,115 @@ function populateSimilarGames(similarGames) {
         section.style.display = 'block';
     }
 }
- 
- 
+
+/* Filter Logic */
+function setupFilterHandlers() {
+    const applyBtn = document.getElementById('apply-filters-btn');
+    const modal = document.getElementById('filter-modal');
+    
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            applyFilters();
+            if (modal) modal.style.display = 'none';
+        });
+    }
+}
+
+// Expose to window for external access (e.g. from main.js tags)
+window.applyGameFilters = applyFilters;
+
+function applyFilters() {
+    const filters = {
+        release: [],
+        genre: [],
+        mode: [],
+        platform: [],
+        top100: false 
+    };
+
+    const modal = document.getElementById('filter-modal');
+    if (!modal) return;
+    
+    // Always remove the 'top100-active' class on refresh, allow checkTop100Status to add it back if needed
+    // or we handle title/class reset here directly to be safe.
+    const pageTitle = document.querySelector('.section-header h2') || document.querySelector('h1') || document.querySelector('.page-title');
+    if (pageTitle) {
+        // Assume default
+        pageTitle.innerText = 'Juegos'; 
+        pageTitle.classList.remove('top100-active');
+    }
+
+    modal.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (!cb.checked) return;
+
+        // Check for Top 100
+        if (cb.dataset.filterType === undefined && 
+            cb.parentElement.classList.contains('filter-header-simple') && 
+            cb.parentElement.innerText.includes('Top 100')) {
+            filters.top100 = true;
+            return;
+        }
+
+        if (cb.dataset.filterType) {
+            filters[cb.dataset.filterType].push(cb.dataset.value);
+        }
+    });
+
+    const conditions = [];
+    const now = Math.floor(Date.now() / 1000);
+
+    // Reset Top 100 Flag
+    isTop100Mode = false;
+
+    // Top 100 Logic
+    if (filters.top100) {
+        conditions.push('rating_count > 50 & rating > 75');
+        isTop100Mode = true; 
+        
+        // Update title manually if active
+        if (pageTitle) {
+            pageTitle.innerText = 'Top 100';
+            pageTitle.classList.add('top100-active');
+        }
+    } else {
+        // Reset specific class if not active
+        const gamesGrid = document.querySelector('.games-list-top100');
+        if (gamesGrid) gamesGrid.className = 'games-grid';
+    }
+
+    // Release
+    if (filters.release.includes('recent')) {
+        const fifteenDaysAgo = now - (15 * 24 * 60 * 60);
+        conditions.push(`first_release_date >= ${fifteenDaysAgo}`);
+    }
+    if (filters.release.includes('old')) {
+        const fifteenDaysAgo = now - (15 * 24 * 60 * 60);
+        conditions.push(`first_release_date < ${fifteenDaysAgo}`);
+    }
+
+    // Genre
+    if (filters.genre.length > 0) {
+        const genreNames = filters.genre.map(g => `"${g}"`).join(',');
+        conditions.push(`genres.name = (${genreNames})`);
+    }
+
+    // Mode
+    if (filters.mode.length > 0) {
+        const modeNames = filters.mode.map(m => `"${m}"`).join(',');
+        conditions.push(`game_modes.name = (${modeNames})`);
+    }
+
+    // Platform
+    if (filters.platform.length > 0) {
+        const platformNames = filters.platform.map(p => `"${p}"`).join(',');
+        conditions.push(`platforms.name = (${platformNames})`);
+    }
+
+    currentWhereClause = conditions.length > 0 ? conditions.join(' & ') : null;
+    
+    console.log('Applying filters:', currentWhereClause);
+
+    // Reset page and reload
+    currentPage = 0;
+    loadGames();
+}

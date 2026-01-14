@@ -34,6 +34,7 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 /* Estilos básicos para layout */
@@ -240,6 +241,9 @@ section {
     padding-bottom: 10px;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-color) #f0f0f0;
+    width: fit-content;
+    margin: 0 auto;
+    max-width: 100%;
 }
 
 .carousel-thumbs-container::-webkit-scrollbar {
@@ -329,7 +333,7 @@ section {
     background-color: #fff;
     color: #333;
     padding: 20px;
-    min-height: 360px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1646,4 +1650,8 @@ body.top100-mode {
     background: var(--accent-color);
     color: white;
     box-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
-}
+}. m o b i l e - m e n u - t o g g l e 
+ 
+   d i s p l a y :   n o n e ;   
+ 
+ 

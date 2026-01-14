@@ -77,11 +77,11 @@
                         <div class="filter-content">
                             <label class="filter-option">
                                 <span>Hace -15 días (Recientes)</span>
-                                <input type="checkbox">
+                                <input type="checkbox" data-filter-type="release" data-value="recent">
                             </label>
                             <label class="filter-option">
                                 <span>Hace +15 días (Antiguos)</span>
-                                <input type="checkbox">
+                                <input type="checkbox" data-filter-type="release" data-value="old">
                             </label>
                         </div>
                     </div>
@@ -93,11 +93,11 @@
                             <span class="toggle-icon">+</span>
                         </div>
                         <div class="filter-content">
-                            <label class="filter-option"><span>Acción</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Aventura</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>RPG</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Estrategia</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Deportes</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Acción</span><input type="checkbox" data-filter-type="genre" data-value="Action"></label>
+                            <label class="filter-option"><span>Aventura</span><input type="checkbox" data-filter-type="genre" data-value="Adventure"></label>
+                            <label class="filter-option"><span>RPG</span><input type="checkbox" data-filter-type="genre" data-value="Role-playing (RPG)"></label>
+                            <label class="filter-option"><span>Estrategia</span><input type="checkbox" data-filter-type="genre" data-value="Strategy"></label>
+                            <label class="filter-option"><span>Deportes</span><input type="checkbox" data-filter-type="genre" data-value="Sport"></label>
                         </div>
                     </div>
 
@@ -108,9 +108,9 @@
                             <span class="toggle-icon">+</span>
                         </div>
                         <div class="filter-content">
-                            <label class="filter-option"><span>Un jugador</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Multijugador</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Cooperativo</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>Un jugador</span><input type="checkbox" data-filter-type="mode" data-value="Single player"></label>
+                            <label class="filter-option"><span>Multijugador</span><input type="checkbox" data-filter-type="mode" data-value="Multiplayer"></label>
+                            <label class="filter-option"><span>Cooperativo</span><input type="checkbox" data-filter-type="mode" data-value="Co-operative"></label>
                         </div>
                     </div>
 
@@ -121,10 +121,10 @@
                             <span class="toggle-icon">+</span>
                         </div>
                         <div class="filter-content">
-                            <label class="filter-option"><span>PC</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>PlayStation 5</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Xbox Series X</span><input type="checkbox"></label>
-                            <label class="filter-option"><span>Nintendo Switch</span><input type="checkbox"></label>
+                            <label class="filter-option"><span>PC</span><input type="checkbox" data-filter-type="platform" data-value="PC (Microsoft Windows)"></label>
+                            <label class="filter-option"><span>PlayStation 5</span><input type="checkbox" data-filter-type="platform" data-value="PlayStation 5"></label>
+                            <label class="filter-option"><span>Xbox Series X</span><input type="checkbox" data-filter-type="platform" data-value="Xbox Series X|S"></label>
+                            <label class="filter-option"><span>Nintendo Switch</span><input type="checkbox" data-filter-type="platform" data-value="Nintendo Switch"></label>
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
 
         <!--Boton de CARGAR MAS-->
         <div class="load-more-container">
-            <button class="load-more-btn">Cargar mas</button>
+            <button id="load-more-btn" class="load-more-btn">Cargar mas</button>
         </div>
 
         <!-- Modal de Detalle de Juego -->
