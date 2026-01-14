@@ -333,7 +333,7 @@ section {
     background-color: #fff;
     color: #333;
     padding: 20px;
-    height: 100%;
+    min-height: 360px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1650,8 +1650,8 @@ body.top100-mode {
     background: var(--accent-color);
     color: white;
     box-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
-}. m o b i l e - m e n u - t o g g l e 
- 
-   d i s p l a y :   n o n e ;   
- 
- 
+}
+
+.mobile-menu-toggle {
+    display: none;
+}
