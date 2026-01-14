@@ -110,12 +110,13 @@
 
     /* Container padding */
     main {
-        padding: 1rem !important;
+        padding: 0 !important;
     }
 
     section {
-        padding: 1.5rem 1rem !important;
-        margin-bottom: 1.5rem !important;
+        padding: 2rem 1rem !important;
+        margin-bottom: 2rem !important;
+        clear: both !important;
     }
 
     /* Grids - 2 columns max */
@@ -208,12 +209,43 @@
     .event-card {
         width: 100% !important;
     }
+
+    /* Extra spacing for small mobiles */
+    .carrusel-section {
+        padding-bottom: 3rem !important;
+        margin-bottom: 3rem !important;
+    }
+
+    .carousel-main-image {
+        height: 180px !important;
+    }
+
+    .featured-section {
+        padding-top: 4rem !important;
+        margin-top: 3rem !important;
+    }
+
+    section {
+        padding: 2.5rem 1rem !important;
+        margin-bottom: 2.5rem !important;
+    }
 }
 
 /* Fix for carousel on mobile */
 @media (max-width: 768px) {
+    .carrusel-section {
+        padding-bottom: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+
     .carousel-container {
-        height: 250px !important;
+        padding: 10px !important;
+        margin-bottom: 3rem !important;
+    }
+
+    .carousel-main-image {
+        height: 200px !important;
+        margin-bottom: 10px !important;
     }
 
     .carousel-main-image img {
@@ -222,12 +254,24 @@
     }
 
     .carousel-thumbnails {
-        height: 80px !important;
+        height: auto !important;
+        margin-bottom: 1rem !important;
     }
 
     .carousel-thumb {
         width: 60px !important;
         height: 60px !important;
+    }
+
+    /* Featured section needs space after carousel */
+    .featured-section {
+        padding-top: 3rem !important;
+        margin-top: 2rem !important;
+        clear: both !important;
+    }
+
+    .featured-carousel-wrapper {
+        margin-top: 1rem !important;
     }
 }
 

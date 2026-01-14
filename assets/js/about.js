@@ -138,6 +138,9 @@ function selectTech(index) {
         item.classList.toggle('active', i === index);
     });
 
+    // Center the active item on mobile
+    centerActiveItem('tech-carousel');
+
     updateTechInfo();
 }
 
@@ -152,6 +155,9 @@ function selectTeam(index) {
     items.forEach((item, i) => {
         item.classList.toggle('active', i === index);
     });
+
+    // Center the active item on mobile
+    centerActiveItem('team-carousel');
 
     updateTeamInfo();
     updateRecipient(); // Update form recipient when team member changes
@@ -337,4 +343,37 @@ function showFormStatus(message, type) {
 function hideFormStatus() {
     const statusDiv = document.getElementById('form-status');
     statusDiv.className = 'form-status';
+}
+
+/*********************************************************/
+/**************CENTER ACTIVE CAROUSEL ITEM****************/
+/*********************************************************/
+
+// Helper function to center the active carousel item
+function centerActiveItem(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+
+    const activeItem = carousel.querySelector('.carousel-item.active');
+    if (!activeItem) return;
+
+    // Only center on mobile devices
+    if (window.innerWidth <= 768) {
+        // Get carousel container
+        const container = carousel.parentElement;
+
+        // Calculate scroll position to center the active item
+        const itemLeft = activeItem.offsetLeft;
+        const itemWidth = activeItem.offsetWidth;
+        const containerWidth = container.offsetWidth;
+
+        // Center calculation
+        const scrollPosition = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+
+        // Smooth scroll to center
+        container.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }
 }
