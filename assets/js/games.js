@@ -8,7 +8,7 @@ let isTop100Mode = false;
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('🎮 Loading games from IGDB API...');
+    console.log('Loading games from IGDB API...');
 
     // Clear placeholders immediately
     const gamesGrid = document.querySelector('.games-grid');
@@ -37,14 +37,14 @@ async function loadGames() {
             console.warn('No games found');
             // If it's a filter search and no results, maybe clear the grid and show message
             if (currentPage === 0) {
-                 const gamesGrid = document.getElementById('games-container');
-                 if (gamesGrid) gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron juegos con estos filtros.</p>';
+                const gamesGrid = document.getElementById('games-container');
+                if (gamesGrid) gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron juegos con estos filtros.</p>';
             }
             return 0;
         }
 
-        console.log(`📊 Loaded ${games.length} games`);
-        
+        console.log(`Loaded ${games.length} games`);
+
         if (currentPage === 0) {
             allGames = games;
         } else {
@@ -79,23 +79,23 @@ function displayGames(games) {
     games.forEach((game, index) => {
         // Special rendering for Top 100
         if (isTop100Mode) {
-             const baseRank = index + 1 + (currentPage * gamesPerPage);
-             const releaseDate = game.first_release_date
+            const baseRank = index + 1 + (currentPage * gamesPerPage);
+            const releaseDate = game.first_release_date
                 ? new Date(game.first_release_date * 1000).toLocaleDateString('es-ES')
                 : 'Fecha desconocida';
-             const rating = game.rating ? `⭐ ${game.rating.toFixed(1)}` : '';
-             const coverUrl = game.cover && game.cover.url
+            const rating = game.rating ? `${game.rating.toFixed(1)}` : '';
+            const coverUrl = game.cover && game.cover.url
                 ? IGDB_API.formatImageUrl(game.cover.url, 'cover_big')
                 : 'https://via.placeholder.com/200x300?text=No+Image';
 
-             const card = document.createElement('div');
-             card.className = 'top100-card';
-             card.dataset.gameId = game.id;
-             card.style.position = 'relative';
-             card.style.cursor = 'pointer';
-             card.onclick = () => showGameModal(game.id);
+            const card = document.createElement('div');
+            card.className = 'top100-card';
+            card.dataset.gameId = game.id;
+            card.style.position = 'relative';
+            card.style.cursor = 'pointer';
+            card.onclick = () => showGameModal(game.id);
 
-             card.innerHTML = `
+            card.innerHTML = `
                     <div class="top100-info">
                         <div class="top100-rank" style="display: inline-block; background: rgba(255, 107, 129, 0.95); color: white; font-weight: bold; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; margin-right: 10px;">
                             #${baseRank}
@@ -137,7 +137,7 @@ function displayGames(games) {
 
         // Add click handler
         card.onclick = () => showGameModal(game.id);
-        
+
         gamesGrid.appendChild(card);
     });
 }
@@ -338,7 +338,7 @@ function setupLoadMoreButton() {
 
             loadMoreBtn.disabled = false;
             loadMoreBtn.textContent = 'Cargar más';
-            
+
             if (count === 0) {
                 loadMoreBtn.style.display = 'none'; // Hide if no more games
             }
@@ -456,28 +456,28 @@ function populateWebsites(websites) {
         container.innerHTML = '';
 
         const websiteCategories = {
-            1: { name: 'Oficial', icon: '🌐' },
-            2: { name: 'Wikia', icon: '📖' },
-            3: { name: 'Wikipedia', icon: '📚' },
-            4: { name: 'Facebook', icon: '👥' },
-            5: { name: 'Twitter', icon: '🐦' },
-            6: { name: 'Twitch', icon: '🎮' },
-            8: { name: 'Instagram', icon: '📷' },
-            9: { name: 'YouTube', icon: '▶️' },
-            13: { name: 'Steam', icon: '🎯' },
-            14: { name: 'Reddit', icon: '💬' },
-            16: { name: 'Epic Games', icon: '🎮' },
-            17: { name: 'GOG', icon: '🎮' },
-            18: { name: 'Discord', icon: '💬' }
+            1: { name: 'Oficial', icon: '' },
+            2: { name: 'Wikia', icon: '' },
+            3: { name: 'Wikipedia', icon: '' },
+            4: { name: 'Facebook', icon: '' },
+            5: { name: 'Twitter', icon: '' },
+            6: { name: 'Twitch', icon: '' },
+            8: { name: 'Instagram', icon: '' },
+            9: { name: 'YouTube', icon: '' },
+            13: { name: 'Steam', icon: '' },
+            14: { name: 'Reddit', icon: '' },
+            16: { name: 'Epic Games', icon: '' },
+            17: { name: 'GOG', icon: '' },
+            18: { name: 'Discord', icon: '' }
         };
 
         websites.forEach(website => {
-            const category = websiteCategories[website.category] || { name: 'Link', icon: '🔗' };
+            const category = websiteCategories[website.category] || { name: 'Link', icon: '' };
             const link = document.createElement('a');
             link.href = website.url;
             link.target = '_blank';
             link.className = 'website-link';
-            link.innerHTML = `${category.icon} ${category.name}`;
+            link.innerHTML = `${category.name}`;
             container.appendChild(link);
         });
 
@@ -568,7 +568,7 @@ function populateSimilarGames(similarGames) {
             card.innerHTML = `
                 <img src="${coverUrl}" alt="${game.name}">
                 <div class="similar-game-name">${game.name}</div>
-                ${game.rating ? `<div class="similar-game-rating">⭐ ${Math.round(game.rating)}</div>` : ''}
+                ${game.rating ? `<div class="similar-game-rating">${Math.round(game.rating)}</div>` : ''}
             `;
             card.onclick = () => showGameModal(game.id);
             container.appendChild(card);
@@ -582,7 +582,7 @@ function populateSimilarGames(similarGames) {
 function setupFilterHandlers() {
     const applyBtn = document.getElementById('apply-filters-btn');
     const modal = document.getElementById('filter-modal');
-    
+
     if (applyBtn) {
         applyBtn.addEventListener('click', () => {
             applyFilters();
@@ -600,18 +600,18 @@ function applyFilters() {
         genre: [],
         mode: [],
         platform: [],
-        top100: false 
+        top100: false
     };
 
     const modal = document.getElementById('filter-modal');
     if (!modal) return;
-    
+
     // Always remove the 'top100-active' class on refresh, allow checkTop100Status to add it back if needed
     // or we handle title/class reset here directly to be safe.
     const pageTitle = document.querySelector('.section-header h2') || document.querySelector('h1') || document.querySelector('.page-title');
     if (pageTitle) {
         // Assume default
-        pageTitle.innerText = 'Juegos'; 
+        pageTitle.innerText = 'Juegos';
         pageTitle.classList.remove('top100-active');
     }
 
@@ -619,8 +619,8 @@ function applyFilters() {
         if (!cb.checked) return;
 
         // Check for Top 100
-        if (cb.dataset.filterType === undefined && 
-            cb.parentElement.classList.contains('filter-header-simple') && 
+        if (cb.dataset.filterType === undefined &&
+            cb.parentElement.classList.contains('filter-header-simple') &&
             cb.parentElement.innerText.includes('Top 100')) {
             filters.top100 = true;
             return;
@@ -640,8 +640,8 @@ function applyFilters() {
     // Top 100 Logic
     if (filters.top100) {
         conditions.push('rating_count > 50 & rating > 75');
-        isTop100Mode = true; 
-        
+        isTop100Mode = true;
+
         // Update title manually if active
         if (pageTitle) {
             pageTitle.innerText = 'Top 100';
@@ -682,7 +682,7 @@ function applyFilters() {
     }
 
     currentWhereClause = conditions.length > 0 ? conditions.join(' & ') : null;
-    
+
     console.log('Applying filters:', currentWhereClause);
 
     // Reset page and reload

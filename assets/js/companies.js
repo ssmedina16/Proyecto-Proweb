@@ -117,7 +117,7 @@ function displayCompanies(companies) {
     grid.innerHTML = '';
 
     if (companies.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">😕 No se encontraron compañías con estos filtros</div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">No se encontraron compañías con estos filtros</div>';
         return;
     }
 
@@ -133,7 +133,7 @@ function showLoadingState() {
     const grid = document.getElementById('companies-grid');
     if (!grid) return;
 
-    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;"><div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>Cargando compañías...</div>';
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;"><div style="font-size: 2rem; margin-bottom: 10px;"></div>Cargando compañías...</div>';
 }
 
 // Load companies from IGDB API
@@ -141,11 +141,11 @@ async function loadCompaniesFromAPI() {
     isLoadingFromAPI = true;
 
     try {
-        console.log('🏢 Loading companies from IGDB API...');
+        console.log('Loading companies from IGDB API...');
         const apiCompanies = await IGDB_API.getCompanies(12);
 
         if (apiCompanies && apiCompanies.length > 0) {
-            console.log(`✅ Loaded ${apiCompanies.length} companies from API`);
+            console.log(`Loaded ${apiCompanies.length} companies from API`);
 
             // Convert API format to our format
             companiesData = apiCompanies.map(company => ({
@@ -164,12 +164,12 @@ async function loadCompaniesFromAPI() {
 
             loadCompanyCards();
         } else {
-            console.warn('⚠️ No companies from API, using fallback data');
+            console.warn('No companies from API, using fallback data');
             companiesData = fallbackCompaniesData;
             loadCompanyCards();
         }
     } catch (error) {
-        console.error('❌ Error loading companies from API:', error);
+        console.error('Error loading companies from API:', error);
         console.log('Using fallback data...');
         companiesData = fallbackCompaniesData;
         loadCompanyCards();
@@ -228,7 +228,7 @@ async function showCompanyModal(company) {
     // Show loading state
     const gamesContainer = document.getElementById('modal-games-list');
     if (gamesContainer) {
-        gamesContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #aaa;">⏳ Cargando datos completos...</div>';
+        gamesContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #aaa;">Cargando datos completos...</div>';
     }
 
     // Show modal immediately
@@ -337,7 +337,7 @@ async function showCompanyModal(company) {
             if (topGamesList) {
                 topGamesList.innerHTML = topGames.map((game, index) => {
                     const cover = game.cover ? IGDB_API.formatImageUrl(game.cover.url, 'cover_small') : 'https://via.placeholder.com/90x120?text=No+Cover';
-                    return `<div class="top-game-item" style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee;"><span class="rank" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-color); margin-right: 15px; min-width: 40px;">#${index + 1}</span><img src="${cover}" alt="${game.name}" style="width: 60px; height: 80px; border-radius: 8px; margin-right: 15px;"><div class="game-info" style="flex: 1;"><p class="game-name" style="font-weight: 600; margin: 0 0 5px 0;">${game.name}</p><p class="game-rating" style="color: #666; margin: 0;">⭐ ${game.rating.toFixed(1)}</p></div></div>`;
+                    return `<div class="top-game-item" style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee;"><span class="rank" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-color); margin-right: 15px; min-width: 40px;">#${index + 1}</span><img src="${cover}" alt="${game.name}" style="width: 60px; height: 80px; border-radius: 8px; margin-right: 15px;"><div class="game-info" style="flex: 1;"><p class="game-name" style="font-weight: 600; margin: 0 0 5px 0;">${game.name}</p><p class="game-rating" style="color: #666; margin: 0;">${game.rating.toFixed(1)}</p></div></div>`;
                 }).join('');
             }
         }
@@ -365,23 +365,23 @@ async function showCompanyModal(company) {
 // Helper: Get website category name
 function getWebsiteCategory(category) {
     const categories = {
-        1: '🌐 Sitio Web',
-        2: '📰 Wikia',
-        3: '📰 Wikipedia',
-        4: '🐦 Twitter',
-        5: '📘 Facebook',
-        6: '📺 YouTube',
-        8: '📱 iPhone',
-        9: '📱 iPad',
-        10: '📱 Android',
-        13: '🎮 Steam',
-        14: '💬 Reddit',
-        15: '🎮 Itch.io',
-        16: '🎮 Epic Games',
-        17: '🎮 GOG',
-        18: '💬 Discord'
+        1: 'Sitio Web',
+        2: 'Wikia',
+        3: 'Wikipedia',
+        4: 'Twitter',
+        5: 'Facebook',
+        6: 'YouTube',
+        8: 'iPhone',
+        9: 'iPad',
+        10: 'Android',
+        13: 'Steam',
+        14: 'Reddit',
+        15: 'Itch.io',
+        16: 'Epic Games',
+        17: 'GOG',
+        18: 'Discord'
     };
-    return categories[category] || '🔗 Enlace';
+    return categories[category] || 'Enlace';
 }
 
 // Fill games
@@ -423,3 +423,82 @@ function setupModalHandlers() {
         }
     });
 }
+
+// Helper: Convert country code to country name
+function getCountryName(countryCode) {
+    if (!countryCode) return 'N/A';
+
+    const countries = {
+        1: 'Europa',
+        2: 'América del Norte',
+        3: 'Australia',
+        4: 'Nueva Zelanda',
+        5: 'Japón',
+        6: 'China',
+        7: 'Asia',
+        8: 'Corea del Sur',
+        9: 'Brasil',
+        10: 'Argentina',
+        11: 'Chile',
+        12: 'México',
+        13: 'Perú',
+        14: 'Venezuela',
+        15: 'Uruguay',
+        16: 'Colombia',
+        17: 'Ecuador',
+        18: 'Bolivia',
+        19: 'Paraguay',
+        20: 'Costa Rica',
+        21: 'Panamá',
+        22: 'Guatemala',
+        23: 'Honduras',
+        24: 'El Salvador',
+        25: 'Nicaragua',
+        26: 'Reino Unido',
+        27: 'Francia',
+        28: 'Alemania',
+        29: 'Italia',
+        30: 'España',
+        31: 'Países Bajos',
+        32: 'Bélgica',
+        33: 'Suecia',
+        34: 'Noruega',
+        35: 'Dinamarca',
+        36: 'Finlandia',
+        37: 'Polonia',
+        38: 'República Checa',
+        39: 'Rusia',
+        40: 'Ucrania',
+        41: 'Turquía',
+        42: 'Israel',
+        43: 'Sudáfrica',
+        44: 'Egipto',
+        45: 'India',
+        46: 'Pakistán',
+        47: 'Tailandia',
+        48: 'Filipinas',
+        49: 'Malasia',
+        50: 'Singapur',
+        51: 'Indonesia',
+        52: 'Vietnam',
+        53: 'Hong Kong',
+        54: 'Taiwán',
+        55: 'Arabia Saudita',
+        56: 'Emiratos Árabes Unidos',
+        57: 'Canadá',
+        58: 'Estados Unidos',
+        59: 'Irlanda',
+        60: 'Suiza',
+        61: 'Austria',
+        62: 'Grecia',
+        63: 'Portugal',
+        64: 'Hungría',
+        65: 'Rumanía',
+        66: 'Croacia',
+        67: 'Eslovaquia',
+        68: 'Islandia'
+    };
+
+    return countries[countryCode] || `País (${countryCode})`;
+}
+

@@ -1,8 +1,9 @@
-// Companies Accordion Functionality
+//********************* Funcionalidad de acordeon para seccion de companias *********************//
 
-document.addEventListener('DOMContentLoaded', () => {
-    const companyAccordion = {
-        init() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const companyAccordion = {
+        //********************* Inicializa elementos del acordeon *********************//
+            init() {
             this.companyHeaders = document.querySelectorAll('.company-header');
 
             if (!this.companyHeaders.length) return;
@@ -10,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.attachEvents();
         },
 
-        attachEvents() {
+        //********************* Adjunta eventos de click a cabeceras de compania *********************//
+            attachEvents() {
             this.companyHeaders.forEach(header => {
                 header.addEventListener('click', (e) => {
                     this.toggleCompany(header.parentElement);
@@ -18,24 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
-        toggleCompany(companyItem) {
+        //********************* Expande o colapsa item de compania *********************//
+            toggleCompany(companyItem) {
             const isExpanded = companyItem.classList.contains('expanded');
             const toggleIcon = companyItem.querySelector('.toggle-icon');
 
             if (isExpanded) {
-                // Collapse
                 companyItem.classList.remove('expanded');
                 toggleIcon.textContent = '+';
             } else {
-                // Expand
                 companyItem.classList.add('expanded');
                 toggleIcon.textContent = '-';
             }
         }
     };
 
-    // Initialize companies accordion
-    if (document.querySelector('.companies-section')) {
-        companyAccordion.init();
-    }
+if (document.querySelector('.companies-section')) {
+    companyAccordion.init();
+}
 });

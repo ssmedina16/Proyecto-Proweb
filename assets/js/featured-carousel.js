@@ -1,12 +1,13 @@
-// Featured Games Carousel Logic
+//********************* Carrusel de juegos destacados muestra 2 juegos a la vez *********************//
 
-document.addEventListener('DOMContentLoaded', () => {
-    const featuredCarousel = {
-        currentPair: 0, // Índice del par actual (muestra 2 juegos a la vez)
-        totalGames: 6,
-        gamesPerView: 2,
+    document.addEventListener('DOMContentLoaded', () => {
+        const featuredCarousel = {
+            currentPair: 0,
+            totalGames: 6,
+            gamesPerView: 2,
 
-        init() {
+        //********************* Inicializa carrusel y adjunta eventos *********************//
+            init() {
             this.container = document.querySelector('.featured-carousel-container');
             this.dots = document.querySelectorAll('#featured-dots .dot');
             this.totalPairs = Math.ceil(this.totalGames / this.gamesPerView);
@@ -17,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.showPair(0);
         },
 
-        attachEvents() {
-            // Click en los dots
+        //********************* Adjunta eventos de click a los indicadores *********************//
+            attachEvents() {
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
                     this.goToPair(index);
@@ -26,20 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
-        goToPair(pairIndex) {
+        //********************* Navega a par de juegos especifico *********************//
+            goToPair(pairIndex) {
             if (pairIndex < 0 || pairIndex >= this.totalPairs) return;
 
             this.currentPair = pairIndex;
             this.showPair(pairIndex);
         },
 
-        showPair(pairIndex) {
-            // Calcular el desplazamiento
-            // Cada card es 50% del ancho + gap
-            const translateValue = -(pairIndex * 100); // 100% por cada par
+        //********************* Muestra par de juegos con transformacion CSS *********************//
+            showPair(pairIndex) {
+            const translateValue = -(pairIndex * 100);
             this.container.style.transform = `translateX(${translateValue}%)`;
 
-            // Actualizar dots activos
             this.dots.forEach((dot, index) => {
                 if (index === pairIndex) {
                     dot.classList.add('active');
@@ -49,19 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
-        nextPair() {
+        //********************* Avanza al siguiente par *********************//
+            nextPair() {
             const nextIndex = (this.currentPair + 1) % this.totalPairs;
-            this.goToPair(nextIndex);
+            this.goToPair(next Index);
         },
 
-        prevPair() {
+        //********************* Retrocede al par anterior *********************//
+            prevPair() {
             const prevIndex = (this.currentPair - 1 + this.totalPairs) % this.totalPairs;
             this.goToPair(prevIndex);
         }
     };
 
-    // Inicializar el carrusel de juegos destacados
-    if (document.querySelector('.featured-carousel-container')) {
-        featuredCarousel.init();
-    }
+if (document.querySelector('.featured-carousel-container')) {
+    featuredCarousel.init();
+}
 });

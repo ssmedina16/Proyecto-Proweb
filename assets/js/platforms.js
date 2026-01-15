@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showLoadingState() {
     const carousel = document.getElementById('platform-carousel');
     if (carousel) {
-        carousel.innerHTML = '<div style="padding: 40px; text-align: center; color: #aaa; grid-column: 1/-1;"><div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>Cargando plataformas...</div>';
+        carousel.innerHTML = '<div style="padding: 40px; text-align: center; color: #aaa; grid-column: 1/-1;"><div style="font-size: 2rem; margin-bottom: 10px;"></div>Cargando plataformas...</div>';
     }
 }
 
@@ -108,11 +108,11 @@ async function loadPlatformsFromAPI() {
     isLoadingFromAPI = true;
 
     try {
-        console.log('🎮 Loading platforms from IGDB API...');
+        console.log('Loading platforms from IGDB API...');
         const apiPlatforms = await IGDB_API.getPlatforms(12);
 
         if (apiPlatforms && apiPlatforms.length > 0) {
-            console.log(`✅ Loaded ${apiPlatforms.length} platforms from API`);
+            console.log(`Loaded ${apiPlatforms.length} platforms from API`);
 
             // Convert API format to our format
             platformsData = apiPlatforms.map(platform => ({
@@ -137,11 +137,11 @@ async function loadPlatformsFromAPI() {
                 topGames: [] // Will be loaded on demand
             }));
         } else {
-            console.warn('⚠️ No platforms from API, using fallback data');
+            console.warn('No platforms from API, using fallback data');
             platformsData = fallbackPlatformsData;
         }
     } catch (error) {
-        console.error('❌ Error loading platforms from API:', error);
+        console.error('Error loading platforms from API:', error);
         console.log('Using fallback data...');
         platformsData = fallbackPlatformsData;
     } finally {

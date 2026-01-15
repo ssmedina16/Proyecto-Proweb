@@ -1,177 +1,161 @@
-// Lógica global (Menú, Búsqueda, Utilidades)
+//********************* Logica global del sitio menu busqueda filtros *********************//
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Sitio cargado');
-    // Global search implementation
-    initializeGlobalSearch();
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Sitio cargado');
+        initializeGlobalSearch();
 
-
-    // Lógica del Modal de Filtros
+    //********************* Logica del modal de filtros abre y cierra modal *********************//
     const modal = document.getElementById('filter-modal');
-    const btn = document.getElementById('open-filter-btn');
-    const span = document.querySelector('.close-btn');
+        const btn = document.getElementById('open-filter-btn');
+        const span = document.querySelector('.close-btn');
 
-    if (btn && modal && span) {
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
+        if (btn && modal && span) {
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
 
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
+            span.onclick = function () {
                 modal.style.display = "none";
             }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         }
-    }
 
-    // Lógica de Acordeón para Filtros
+    //********************* Logica de acordeon para filtros expandir colapsar *********************//
     const accordions = document.querySelectorAll('.filter-item.accordion .filter-header');
-    accordions.forEach(header => {
-        header.addEventListener('click', () => {
-            const item = header.parentElement;
-            item.classList.toggle('active');
+        accordions.forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('active');
+            });
         });
-    });
 
-    // Botón Guardar Selección
+    //********************* Aplica filtros seleccionados y muestra tags activos *********************//
     const applyBtn = document.getElementById('apply-filters-btn');
-    if (applyBtn) {
-        applyBtn.addEventListener('click', () => {
-            const activeFiltersContainer = document.getElementById('active-filters');
-            if (!activeFiltersContainer) return;
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => {
+                const activeFiltersContainer = document.getElementById('active-filters');
+                if (!activeFiltersContainer) return;
 
-            activeFiltersContainer.innerHTML = ''; // Limpiar filtros anteriores
+                activeFiltersContainer.innerHTML = '';
 
-            // Buscar todos los checkboxes marcados dentro del modal
-            const checkboxes = modal.querySelectorAll('input[type="checkbox"]:checked');
+                const checkboxes = modal.querySelectorAll('input[type="checkbox"]:checked');
 
-            checkboxes.forEach(checkbox => {
-                // Obtener el texto de la etiqueta asociada
-                let labelText = '';
-                // Caso 1: Checkbox dentro de .filter-header-simple (Top 100)
-                if (checkbox.parentElement.classList.contains('filter-header-simple')) {
-                    labelText = checkbox.parentElement.querySelector('span').textContent;
-                }
-                // Caso 2: Checkbox dentro de .filter-option (Resto de opciones)
-                else if (checkbox.parentElement.classList.contains('filter-option')) {
-                    labelText = checkbox.parentElement.querySelector('span').textContent;
-                }
+                checkboxes.forEach(checkbox => {
+                    let labelText = '';
 
-                if (labelText) {
-                    const tag = document.createElement('div');
-                    tag.className = 'filter-tag';
-                    tag.innerHTML = `
+                    if (checkbox.parentElement.classList.contains('filter-header-simple')) {
+                        labelText = checkbox.parentElement.querySelector('span').textContent;
+                    }
+
+                    else if (checkbox.parentElement.classList.contains('filter-option')) {
+                        labelText = checkbox.parentElement.querySelector('span').textContent;
+                    }
+
+                    if (labelText) {
+                        const tag = document.createElement('div');
+                        tag.className = 'filter-tag';
+                        tag.innerHTML = `
                         ${labelText}
                         <span class="filter-tag-close" onclick="removeFilter(this)">&times;</span>
                     `;
-                    // Guardar referencia al checkbox para poder desmarcarlo luego
-                    tag.dataset.checkboxId = checkbox.id || ''; // Si tuvieran ID
+                        tag.dataset.checkboxId = checkbox.id || '';
 
-                    // Agregar evento de cierre personalizado para desmarcar el checkbox
-                    tag.querySelector('.filter-tag-close').onclick = function () {
-                        checkbox.checked = false;
-                        tag.remove();
-                        
-                        // Si estamos en la página de juegos, actualizar resultados
-                        if (typeof window.applyGameFilters === 'function') {
-                            window.applyGameFilters();
-                        }
-                        
-                        // Verificar el titulo tambien
-                        checkTop100Status();
-                    };
+                        tag.querySelector('.filter-tag-close').onclick = function () {
+                            checkbox.checked = false;
+                            tag.remove();
 
-                    activeFiltersContainer.appendChild(tag);
-                }
-            });
+                            if (typeof window.applyGameFilters === 'function') {
+                                window.applyGameFilters();
+                            }
 
-            modal.style.display = "none";
-            checkTop100Status(); // Verificar estado al aplicar
-        });
-    }
+                            checkTop100Status();
+                        };
 
-
-    // Función para verificar si Top 100 está activo y cambiar la vista de la pagina
-    async function checkTop100Status() {
-        // FUNCTION INTENTIONALLY DISABLED TO PREVENT CONFLICTS WITH games.js
-        // The Top 100 logic is now handled in applyFilters within games.js
-        
-        // We only clean up the title if needed
-        const pageTitle = document.querySelector('.page-title');
-        const activeFiltersContainer = document.getElementById('active-filters');
-        
-        let isTop100Active = false;
-        if (activeFiltersContainer) {
-            const tags = activeFiltersContainer.querySelectorAll('.filter-tag');
-            tags.forEach(tag => {
-                if (tag.textContent.includes('Top 100')) {
-                    isTop100Active = true;
-                }
-            });
-        }
-    
-        if (pageTitle) {
-            if (isTop100Active) {
-                pageTitle.textContent = 'Top 100';
-            } else {
-                pageTitle.textContent = 'Juegos';
-            }
-        }
-    }
-
-
-    // Función para renderizar Top 100 juegos REALES desde la API
-    async function renderTop100GamesReal(container) {
-        // Mostrar estado de carga
-        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;"><div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>Cargando Top 100 juegos...</div>';
-
-        try {
-            const top100Games = await IGDB_API.getTop100Games();
-
-            if (!top100Games || top100Games.length === 0) {
-                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">No se pudieron cargar los juegos</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-
-            // Renderizar cada juego con formato Top 100
-            top100Games.forEach((game, index) => {
-                const rank = index + 1;
-                const releaseDate = game.first_release_date
-                    ? new Date(game.first_release_date * 1000).toLocaleDateString('es-ES')
-                    : 'Fecha desconocida';
-                const gameName = game.name;
-                const rating = game.rating ? `⭐ ${game.rating.toFixed(1)}` : '';
-                const coverUrl = game.cover
-                    ? IGDB_API.formatImageUrl(game.cover.url, 'cover_big')
-                    : 'https://via.placeholder.com/200x300?text=No+Image';
-
-                container.innerHTML += generateTop100Card(rank, releaseDate, gameName, rating, game.id, coverUrl);
-            });
-
-            // Agregar event listeners a las tarjetas
-            const cards = container.querySelectorAll('.top100-card');
-            cards.forEach((card) => {
-                card.addEventListener('click', () => {
-                    const gameId = card.dataset.gameId;
-                    if (gameId && typeof showGameModal === 'function') {
-                        showGameModal(parseInt(gameId));
+                        activeFiltersContainer.appendChild(tag);
                     }
                 });
+
+                modal.style.display = "none";
+                checkTop100Status();
             });
-
-        } catch (error) {
-            console.error('Error loading Top 100:', error);
-            container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #ff6b81;">Error al cargar Top 100</div>';
         }
-    }
 
-    function generateTop100Card(rank, date, name, rating, gameId, coverUrl) {
-        return `
+    //********************* Verifica si Top 100 esta activo y actualiza titulo de pagina *********************//
+            async function checkTop100Status() {
+                const pageTitle = document.querySelector('.page-title');
+                const activeFiltersContainer = document.getElementById('active-filters');
+
+                let isTop100Active = false;
+                if (activeFiltersContainer) {
+                    const tags = activeFiltersContainer.querySelectorAll('.filter-tag');
+                    tags.forEach(tag => {
+                        if (tag.textContent.includes('Top 100')) {
+                            isTop100Active = true;
+                        }
+                    });
+                }
+
+                if (pageTitle) {
+                    if (isTop100Active) {
+                        pageTitle.textContent = 'Top 100';
+                    } else {
+                        pageTitle.textContent = 'Juegos';
+                    }
+                }
+            }
+
+            //********************* Renderiza Top 100 juegos desde API con estado de carga *********************//
+                async function renderTop100GamesReal(container) {
+                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;"><div style="font-size: 2rem; margin-bottom: 10px;"></div>Cargando Top 100 juegos...</div>';
+
+                    try {
+                        const top100Games = await IGDB_API.getTop100Games();
+
+                        if (!top100Games || top100Games.length === 0) {
+                            container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">No se pudieron cargar los juegos</div>';
+                            return;
+                        }
+
+                        container.innerHTML = '';
+
+                        top100Games.forEach((game, index) => {
+                            const rank = index + 1;
+                            const releaseDate = game.first_release_date
+                                ? new Date(game.first_release_date * 1000).toLocaleDateString('es-ES')
+                                : 'Fecha desconocida';
+                            const gameName = game.name;
+                            const rating = game.rating ? `${game.rating.toFixed(1)}` : '';
+                            const coverUrl = game.cover
+                                ? IGDB_API.formatImageUrl(game.cover.url, 'cover_big')
+                                : 'https://via.placeholder.com/200x300?text=No+Image';
+
+                            container.innerHTML += generateTop100Card(rank, releaseDate, gameName, rating, game.id, coverUrl);
+                        });
+
+                        const cards = container.querySelectorAll('.top100-card');
+                        cards.forEach((card) => {
+                            card.addEventListener('click', () => {
+                                const gameId = card.dataset.gameId;
+                                if (gameId && typeof showGameModal === 'function') {
+                                    showGameModal(parseInt(gameId));
+                                }
+                            });
+                        });
+
+                    } catch (error) {
+                        console.error('Error loading Top 100:', error);
+                        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #ff6b81;">Error al cargar Top 100</div>';
+                    }
+                }
+
+                //********************* Genera HTML para tarjeta de juego en formato Top 100 *********************//
+                    function generateTop100Card(rank, date, name, rating, gameId, coverUrl) {
+                        return `
             <div class="top100-card" data-game-id="${gameId || ''}" style="position: relative;">
                 <div class="top100-info">
                     <div class="top100-rank" style="display: inline-block; background: rgba(255, 107, 129, 0.95); color: white; font-weight: bold; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; margin-right: 10px;">
@@ -190,21 +174,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-    }
-});
+                    }
+    });
 
-// Global Search Functionality
-function initializeGlobalSearch() {
-    const searchInputs = document.querySelectorAll('.search-bar input[type="text"]');
+//********************* Inicializa la busqueda global en todos los campos de busqueda del sitio *********************//
+    function initializeGlobalSearch() {
+        const searchInputs = document.querySelectorAll('.search-bar input[type="text"]');
 
-    searchInputs.forEach(searchInput => {
-        let searchTimeout;
-        let searchResults = null;
+        searchInputs.forEach(searchInput => {
+            let searchTimeout;
+            let searchResults = null;
 
-        // Create results dropdown
-        const resultsDropdown = document.createElement('div');
-        resultsDropdown.className = 'search-results-dropdown';
-        resultsDropdown.style.cssText = `
+            const resultsDropdown = document.createElement('div');
+            resultsDropdown.className = 'search-results-dropdown';
+            resultsDropdown.style.cssText = `
             position: absolute; 
             top: 100%; 
             left: 0; 
@@ -219,110 +202,107 @@ function initializeGlobalSearch() {
             margin-top: 5px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         `;
-        searchInput.parentElement.style.position = 'relative';
-        searchInput.parentElement.appendChild(resultsDropdown);
+            searchInput.parentElement.style.position = 'relative';
+            searchInput.parentElement.appendChild(resultsDropdown);
 
-        // Search on input
-        searchInput.addEventListener('input', async (e) => {
-            const query = e.target.value.trim();
+        //********************* Busca al escribir con debounce de 300ms *********************//
+                searchInput.addEventListener('input', async (e) => {
+                    const query = e.target.value.trim();
 
-            clearTimeout(searchTimeout);
+                    clearTimeout(searchTimeout);
 
-            if (query.length < 2) {
-                resultsDropdown.style.display = 'none';
+                    if (query.length < 2) {
+                        resultsDropdown.style.display = 'none';
+                        return;
+                    }
+
+                    searchTimeout = setTimeout(async () => {
+                        resultsDropdown.innerHTML = '<div style="padding: 15px; color: #aaa;">Buscando...</div>';
+                        resultsDropdown.style.display = 'block';
+
+                        try {
+                            const results = await IGDB_API.searchAll(query, 5);
+                            displaySearchResults(results, resultsDropdown, query);
+                        } catch (error) {
+                            resultsDropdown.innerHTML = '<div style="padding: 15px; color: #ff6b81;">Error en la busqueda</div>';
+                        }
+                    }, 300);
+                });
+
+        //********************* Cierra dropdown al hacer click fuera *********************//
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.parentElement.contains(e.target)) {
+                        resultsDropdown.style.display = 'none';
+                    }
+                });
+        });
+    }
+
+    //********************* Muestra resultados de busqueda organizados por categoria *********************//
+        function displaySearchResults(results, dropdown, query) {
+            const { games, companies, platforms, events } = results;
+            const totalResults = games.length + companies.length + platforms.length + events.length;
+
+            if (totalResults === 0) {
+                dropdown.innerHTML = '<div style="padding: 15px; color: #aaa;">No se encontraron resultados</div>';
                 return;
             }
 
-            searchTimeout = setTimeout(async () => {
-                resultsDropdown.innerHTML = '<div style="padding: 15px; color: #aaa;">Buscando...</div>';
-                resultsDropdown.style.display = 'block';
+            let html = '';
 
-                try {
-                    const results = await IGDB_API.searchAll(query, 5);
-                    displaySearchResults(results, resultsDropdown, query);
-                } catch (error) {
-                    resultsDropdown.innerHTML = '<div style="padding: 15px; color: #ff6b81;">Error en la búsqueda</div>';
-                }
-            }, 300);
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!searchInput.parentElement.contains(e.target)) {
-                resultsDropdown.style.display = 'none';
-            }
-        });
-    });
-}
-
-function displaySearchResults(results, dropdown, query) {
-    const { games, companies, platforms, events } = results;
-    const totalResults = games.length + companies.length + platforms.length + events.length;
-
-    if (totalResults === 0) {
-        dropdown.innerHTML = '<div style="padding: 15px; color: #aaa;">No se encontraron resultados</div>';
-        return;
-    }
-
-    let html = '';
-
-    // Games
-    if (games.length > 0) {
-        html += '<div style="padding: 10px 15px; background: rgba(255, 107, 129, 0.1); font-weight: bold; color: #ff6b81; font-size: 0.85rem; text-transform: uppercase;">Juegos</div>';
-        games.forEach(game => {
-            const cover = game.cover ? IGDB_API.formatImageUrl(game.cover.url, 'thumb') : 'https://via.placeholder.com/50x70?text=Game';
-            html += `
+            if (games.length > 0) {
+                html += '<div style="padding: 10px 15px; background: rgba(255, 107, 129, 0.1); font-weight: bold; color: #ff6b81; font-size: 0.85rem; text-transform: uppercase;">Juegos</div>';
+                games.forEach(game => {
+                    const cover = game.cover ? IGDB_API.formatImageUrl(game.cover.url, 'thumb') : 'https://via.placeholder.com/50x70?text=Game';
+                    html += `
                 <div class="search-result-item" style="padding: 10px 15px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,107,129,0.1)'" onmouseout="this.style.background='transparent'">
                     <img src="${cover}" style="width: 40px; height: 55px; object-fit: cover; border-radius: 4px;">
                     <div>
                         <div style="color: #fff; font-weight: 500;">${game.name}</div>
-                        ${game.rating ? `<div style="color: #aaa; font-size: 0.85rem;">⭐ ${game.rating.toFixed(1)}</div>` : ''}
+                        ${game.rating ? `<div style="color: #aaa; font-size: 0.85rem;">${game.rating.toFixed(1)}</div>` : ''}
                     </div>
                 </div>
             `;
-        });
-    }
+                });
+            }
 
-    // Companies
-    if (companies.length > 0) {
-        html += '<div style="padding: 10px 15px; background: rgba(139, 92, 246, 0.1); font-weight: bold; color: #8b5cf6; font-size: 0.85rem; text-transform: uppercase;">Compañías</div>';
-        companies.forEach(company => {
-            const logo = company.logo ? IGDB_API.formatImageUrl(company.logo.url, 'thumb') : 'https://via.placeholder.com/50?text=Co';
-            html += `
+            if (companies.length > 0) {
+                html += '<div style="padding: 10px 15px; background: rgba(139, 92, 246, 0.1); font-weight: bold; color: #8b5cf6; font-size: 0.85rem; text-transform: uppercase;">Companias</div>';
+                companies.forEach(company => {
+                    const logo = company.logo ? IGDB_API.formatImageUrl(company.logo.url, 'thumb') : 'https://via.placeholder.com/50?text=Co';
+                    html += `
                 <div class="search-result-item" style="padding: 10px 15px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(139,92,246,0.1)'" onmouseout="this.style.background='transparent'">
                     <img src="${logo}" style="width: 40px; height: 40px; object-fit: contain; border-radius: 4px; background: #fff; padding: 2px;">
                     <div>
                         <div style="color: #fff; font-weight: 500;">${company.name}</div>
-                        ${company.country ? `<div style="color: #aaa; font-size: 0.85rem;">📍 ${company.country}</div>` : ''}
+                        ${company.country ? `<div style="color: #aaa; font-size: 0.85rem;">${company.country}</div>` : ''}
                     </div>
                 </div>
             `;
-        });
-    }
+                });
+            }
 
-    // Platforms
-    if (platforms.length > 0) {
-        html += '<div style="padding: 10px 15px; background: rgba(34, 197, 94, 0.1); font-weight: bold; color: #22c55e; font-size: 0.85rem; text-transform: uppercase;">Plataformas</div>';
-        platforms.forEach(platform => {
-            html += `
+            if (platforms.length > 0) {
+                html += '<div style="padding: 10px 15px; background: rgba(34, 197, 94, 0.1); font-weight: bold; color: #22c55e; font-size: 0.85rem; text-transform: uppercase;">Plataformas</div>';
+                platforms.forEach(platform => {
+                    html += `
                 <div class="search-result-item" style="padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(34,197,94,0.1)'" onmouseout="this.style.background='transparent'">
                     <div style="color: #fff; font-weight: 500;">${platform.name}</div>
                 </div>
             `;
-        });
-    }
+                });
+            }
 
-    // Events
-    if (events.length > 0) {
-        html += '<div style="padding: 10px 15px; background: rgba(251, 191, 36, 0.1); font-weight: bold; color: #fbbf24; font-size: 0.85rem; text-transform: uppercase;">Eventos</div>';
-        events.forEach(event => {
-            html += `
+            if (events.length > 0) {
+                html += '<div style="padding: 10px 15px; background: rgba(251, 191, 36, 0.1); font-weight: bold; color: #fbbf24; font-size: 0.85rem; text-transform: uppercase;">Eventos</div>';
+                events.forEach(event => {
+                    html += `
                 <div class="search-result-item" style="padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(251,191,36,0.1)'" onmouseout="this.style.background='transparent'">
                     <div style="color: #fff; font-weight: 500;">${event.name}</div>
                 </div>
             `;
-        });
-    }
+                });
+            }
 
-    dropdown.innerHTML = html;
-}
+            dropdown.innerHTML = html;
+        }

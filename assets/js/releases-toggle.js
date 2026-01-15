@@ -1,8 +1,9 @@
-// Releases Toggle Functionality
+//********************* Funcionalidad de alternador de lanzamientos nuevos y proximos *********************//
 
-document.addEventListener('DOMContentLoaded', () => {
-    const releasesToggle = {
-        init() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const releasesToggle = {
+        //********************* Inicializa elementos del DOM *********************//
+            init() {
             this.toggleBtns = document.querySelectorAll('.toggle-btn');
             this.newReleasesGrid = document.getElementById('new-releases');
             this.upcomingReleasesGrid = document.getElementById('upcoming-releases');
@@ -13,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.attachEvents();
         },
 
-        attachEvents() {
+        //********************* Adjunta eventos a botones de alternancia *********************//
+            attachEvents() {
             this.toggleBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const type = btn.dataset.type;
@@ -22,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
-        switchReleases(type) {
-            // Update active toggle button
+        //********************* Cambia entre vista de nuevos y proximos lanzamientos *********************//
+            switchReleases(type) {
             this.toggleBtns.forEach(btn => {
                 if (btn.dataset.type === type) {
                     btn.classList.add('active');
@@ -32,23 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Show/hide corresponding grids
             if (type === 'new') {
                 this.newReleasesGrid.classList.remove('hidden');
                 this.upcomingReleasesGrid.classList.add('hidden');
-                // Update link to recent releases page
                 this.releasesLink.href = '../pages/games/index.html?filter=recent';
             } else {
                 this.newReleasesGrid.classList.add('hidden');
                 this.upcomingReleasesGrid.classList.remove('hidden');
-                // Update link to upcoming releases page
                 this.releasesLink.href = '../pages/games/index.html?filter=upcoming';
             }
         }
     };
 
-    // Initialize releases toggle
-    if (document.getElementById('releases')) {
-        releasesToggle.init();
-    }
+if (document.getElementById('releases')) {
+    releasesToggle.init();
+}
 });

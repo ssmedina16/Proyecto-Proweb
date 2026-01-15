@@ -6,7 +6,7 @@ let countdownInterval = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('🎮 Loading events from IGDB API...');
+    console.log('Loading events from IGDB API...');
 
     try {
         await loadEvents();
@@ -97,7 +97,7 @@ function displayFilteredEvents(events) {
     grid.innerHTML = '';
 
     if (events.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">😕 No se encontraron eventos con estos filtros</div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #aaa;">No se encontraron eventos con estos filtros</div>';
         return;
     }
 
@@ -114,7 +114,7 @@ async function loadEvents() {
         const apiEvents = await IGDB_API.getEvents(10);
 
         if (apiEvents && apiEvents.length > 0) {
-            console.log(`📊 Loaded ${apiEvents.length} events from API`);
+            console.log(`Loaded ${apiEvents.length} events from API`);
 
             // Convert API events to our format
             apiEvents.forEach(event => {
@@ -195,10 +195,10 @@ function createEventCard(event) {
                 <span class="event-status-badge status-${status.class}">${status.label}</span>
             </div>
             <div class="event-card-date">
-                📅 ${formatShortDate(event.startDate)}
+                ${formatShortDate(event.startDate)}
             </div>
             <div class="event-card-location">
-                📍 ${event.location}
+                ${event.location}
             </div>
         </div>
     `;
